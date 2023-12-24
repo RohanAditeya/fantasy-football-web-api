@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://cockroach.domain.com:26257/fantasy_football
+    username: root
+    hikari:
+      schema: dev
+      data-source-properties:
+        sslmode: disable
