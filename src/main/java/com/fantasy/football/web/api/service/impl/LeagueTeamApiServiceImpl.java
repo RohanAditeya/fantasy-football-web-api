@@ -15,7 +15,7 @@ public class LeagueTeamApiServiceImpl implements LeagueTeamApiService {
     }
 
     @Override
-    public void processAndCreateLeagueTeamRecord (LeagueTeam leagueTeamRecord) {
+    public void processAndSaveLeagueTeam (LeagueTeam leagueTeamRecord) {
         leagueTeamRepository.save(leagueTeamRecord);
     }
 }

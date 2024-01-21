@@ -1,4 +1,4 @@
-package com.fantasy.football.web.api.controller.impl;
+package com.fantasy.football.web.api.controller;
 
 import com.fantasy.football.model.LeagueTeam;
 import com.fantasy.football.web.api.service.LeagueTeamApiService;
@@ -14,18 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(value = {MockitoExtension.class})
-public class LeagueTeamApiControllerImplTest {
+public class LeagueTeamControllerTest {
 
     @InjectMocks
-    private LeagueTeamApiControllerImpl leagueTeamApiController;
+    private LeagueTeamController leagueTeamApiController;
     @Mock
     private LeagueTeamApiService leagueTeamApiService;
 
     @Test
     public void createLeagueTeamRecordCallsServiceAndReturnsOkStatusTest () {
-        doNothing().when(leagueTeamApiService).processAndCreateLeagueTeamRecord(any(LeagueTeam.class));
-        ResponseEntity<Void> response = leagueTeamApiController.createLeagueTeamRecord(new LeagueTeam.Builder().build());
+        doNothing().when(leagueTeamApiService).processAndSaveLeagueTeam(any(LeagueTeam.class));
+        ResponseEntity<Void> response = leagueTeamApiController.createLeagueTeam(new LeagueTeam.Builder().build());
         assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.CREATED.value());
-        verify(leagueTeamApiService, times(1)).processAndCreateLeagueTeamRecord(any(LeagueTeam.class));
+        verify(leagueTeamApiService, times(1)).processAndSaveLeagueTeam(any(LeagueTeam.class));
     }
 }

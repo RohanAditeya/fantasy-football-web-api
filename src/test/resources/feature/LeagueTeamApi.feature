@@ -4,7 +4,7 @@ Feature: The league team API provides the functionality to store and retrieve le
   Rule: The Post endpoint must provide functionality to save new league team records to the data store
     @PostRequest
     Scenario: The user can save league team records to the data store through POST API
-      When A user calls the POST API with values
+      When A user calls the POST '/fantasy/football/v1/league-team/create' API with values
         """json
           {
               "code": 3,

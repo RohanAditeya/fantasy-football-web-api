@@ -24,7 +24,7 @@ public class LeagueTeamApiServiceImplTest {
         ArgumentCaptor<LeagueTeam> saveCallCaptor = ArgumentCaptor.forClass(LeagueTeam.class);
         doReturn(new LeagueTeam.Builder().build()).when(leagueTeamRepository).save(saveCallCaptor.capture());
         LeagueTeam mockLeagueTeam = new LeagueTeam.Builder().code(1).name("mock-team").build();
-        leagueTeamApiService.processAndCreateLeagueTeamRecord(mockLeagueTeam);
+        leagueTeamApiService.processAndSaveLeagueTeam(mockLeagueTeam);
         verify(leagueTeamRepository, times(1)).save(any(LeagueTeam.class));
     }
 }
