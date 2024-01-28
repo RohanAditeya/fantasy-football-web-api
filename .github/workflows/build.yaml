@@ -20,6 +20,8 @@ jobs:
           check-latest: true
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots verify
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Log in to the Github packages Docker Container registry
         uses: docker/login-action@v3
         with:
