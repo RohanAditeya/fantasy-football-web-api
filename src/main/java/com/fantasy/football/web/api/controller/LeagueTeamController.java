@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.fantasy.football.web.api.utils.ApplicationConstants.LEAGUE_TEAM_CREATE;
+import static com.fantasy.football.web.api.utils.ApplicationConstants.LEAGUE_TEAM_CREATE_MARKER;
 
 @Slf4j
 @RestController
@@ -23,7 +23,7 @@ public class LeagueTeamController implements LeagueTeamApi {
     }
     @Override
     public ResponseEntity<Void> createLeagueTeam(@Valid LeagueTeam body) {
-        log.atInfo().addMarker(MarkerFactory.getMarker(LEAGUE_TEAM_CREATE)).log("Handling POST request for league team API");
+        log.atInfo().addMarker(MarkerFactory.getMarker(LEAGUE_TEAM_CREATE_MARKER)).log("Handling POST request for league team API");
         leagueTeamService.validateAndSaveLeagueTeam(body);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
