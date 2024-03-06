@@ -6,7 +6,7 @@
 
     <groupId>com.fantasy.football</groupId>
     <artifactId>fantasy-football-web-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <parent>
         <groupId>com.framework.another.boot</groupId>
@@ -18,7 +18,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fantasy-football-model.version>1.0-SNAPSHOT</fantasy-football-model.version>
+        <fantasy-football-model.version>1.0.0</fantasy-football-model.version>
     </properties>
 
     <dependencies>
@@ -46,6 +46,14 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
