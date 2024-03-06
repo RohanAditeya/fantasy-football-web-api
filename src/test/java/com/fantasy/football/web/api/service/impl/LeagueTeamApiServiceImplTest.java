@@ -1,6 +1,7 @@
 package com.fantasy.football.web.api.service.impl;
 
 import com.fantasy.football.model.LeagueTeam;
+import com.fantasy.football.model.LeagueTeamPrimaryKey;
 import com.fantasy.football.web.api.repository.LeagueTeamRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.*;
 public class LeagueTeamApiServiceImplTest {
 
     @InjectMocks
-    private LeagueTeamApiServiceImpl leagueTeamApiService;
+    private LeagueTeamServiceImpl leagueTeamApiService;
     @Mock
     private LeagueTeamRepository leagueTeamRepository;
 
@@ -23,8 +24,8 @@ public class LeagueTeamApiServiceImplTest {
     public void processAndCreateLeagueTeamRecordCallsSaveAfterInitializingPrimaryKeyTest () {
         ArgumentCaptor<LeagueTeam> saveCallCaptor = ArgumentCaptor.forClass(LeagueTeam.class);
         doReturn(new LeagueTeam.Builder().build()).when(leagueTeamRepository).save(saveCallCaptor.capture());
-        LeagueTeam mockLeagueTeam = new LeagueTeam.Builder().code(1).name("mock-team").build();
-        leagueTeamApiService.processAndSaveLeagueTeam(mockLeagueTeam);
+        LeagueTeam mockLeagueTeam = new LeagueTeam.Builder().compositeKey(new LeagueTeamPrimaryKey("Arsenal", 1)).build();
+        leagueTeamApiService.validateAndSaveLeagueTeam(mockLeagueTeam);
         verify(leagueTeamRepository, times(1)).save(any(LeagueTeam.class));
     }
 }

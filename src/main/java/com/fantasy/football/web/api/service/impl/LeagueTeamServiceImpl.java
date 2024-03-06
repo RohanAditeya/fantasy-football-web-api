@@ -2,20 +2,19 @@ package com.fantasy.football.web.api.service.impl;
 
 import com.fantasy.football.model.LeagueTeam;
 import com.fantasy.football.web.api.repository.LeagueTeamRepository;
-import com.fantasy.football.web.api.service.LeagueTeamApiService;
+import com.fantasy.football.web.api.service.LeagueTeamService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LeagueTeamApiServiceImpl implements LeagueTeamApiService {
+public class LeagueTeamServiceImpl implements LeagueTeamService {
 
     private final LeagueTeamRepository leagueTeamRepository;
 
-    public LeagueTeamApiServiceImpl (LeagueTeamRepository leagueTeamRepository) {
+    public LeagueTeamServiceImpl (LeagueTeamRepository leagueTeamRepository) {
         this.leagueTeamRepository = leagueTeamRepository;
     }
-
     @Override
-    public void processAndSaveLeagueTeam (LeagueTeam leagueTeamRecord) {
+    public void validateAndSaveLeagueTeam(LeagueTeam leagueTeamRecord) {
         leagueTeamRepository.save(leagueTeamRecord);
     }
 }
