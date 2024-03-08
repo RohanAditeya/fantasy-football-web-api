@@ -54,7 +54,7 @@ jobs:
       - name: Chart | Push
         uses: appany/helm-oci-chart-releaser@v0.4.1
         with:
-          name: fantasy-football-web-api
+          name: fantasy-football-web-api/fantasy-football-web-api
           repository: ${{ github.repository }}
           tag: 1.0.0
           path: charts/kube
