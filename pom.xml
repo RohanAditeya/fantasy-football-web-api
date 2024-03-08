@@ -4,7 +4,7 @@
 
     <groupId>com.fantasy.football</groupId>
     <artifactId>fantasy-football-web-api</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
 
     <parent>
         <groupId>com.framework.another.boot</groupId>
@@ -95,7 +95,7 @@
         <connection>scm:git:${project.scm.url}</connection>
         <developerConnection>scm:git:${project.scm.url}</developerConnection>
         <url>https://github.com/RohanAditeya/fantasy-football-web-api.git</url>
-        <tag>HEAD</tag>
+        <tag>fantasy-football-web-api-1.0.2</tag>
     </scm>
 
 </project>
