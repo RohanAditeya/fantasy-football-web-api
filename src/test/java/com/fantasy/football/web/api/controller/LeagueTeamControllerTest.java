@@ -1,7 +1,7 @@
 package com.fantasy.football.web.api.controller;
 
 import com.fantasy.football.model.LeagueTeam;
-import com.fantasy.football.web.api.service.LeagueTeamApiService;
+import com.fantasy.football.web.api.service.LeagueTeamService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,13 +19,13 @@ public class LeagueTeamControllerTest {
     @InjectMocks
     private LeagueTeamController leagueTeamApiController;
     @Mock
-    private LeagueTeamApiService leagueTeamApiService;
+    private LeagueTeamService leagueTeamApiService;
 
     @Test
     public void createLeagueTeamRecordCallsServiceAndReturnsOkStatusTest () {
-        doNothing().when(leagueTeamApiService).processAndSaveLeagueTeam(any(LeagueTeam.class));
+        doNothing().when(leagueTeamApiService).validateAndSaveLeagueTeam(any(LeagueTeam.class));
         ResponseEntity<Void> response = leagueTeamApiController.createLeagueTeam(new LeagueTeam.Builder().build());
         assertThat(response.getStatusCode().value()).isEqualTo(HttpStatus.CREATED.value());
-        verify(leagueTeamApiService, times(1)).processAndSaveLeagueTeam(any(LeagueTeam.class));
+        verify(leagueTeamApiService, times(1)).validateAndSaveLeagueTeam(any(LeagueTeam.class));
     }
 }
