@@ -68,8 +68,19 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/RohanAditeya/fantasy-football-web-api</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
@@ -81,5 +92,12 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <scm>
+        <connection>scm:git:${project.scm.url}</connection>
+        <developerConnection>scm:git:${project.scm.url}</developerConnection>
+        <url>https://github.com/RohanAditeya/fantasy-football-web-api.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>
