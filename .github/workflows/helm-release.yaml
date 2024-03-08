@@ -1,7 +1,7 @@
 name: fantasy-football-web-api package publish
 on:
   registry_package:
-    types: [published]
+    types: [published, updated]
 env:
   REGISTRY: ghcr.io
 jobs:
