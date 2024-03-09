@@ -51,14 +51,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Chart | Push
-        uses: appany/helm-oci-chart-releaser@v0.4.1
-        with:
-          name: fantasy-football-web-api
-          repository: rohanaditeya/fantasy-football-web-api
-          tag: 1.0.0
-          path: charts/kube
-          registry: ${{ env.REGISTRY }}
-          registry_username: ${{ github.actor }}
-          registry_password: ${{ secrets.GITHUB_TOKEN }}
-          update_dependencies: 'true'
