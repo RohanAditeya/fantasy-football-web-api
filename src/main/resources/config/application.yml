@@ -3,10 +3,11 @@ spring:
     name: fantasy-football-web-api
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: root
+    username: postgres
+    password: admin
     hikari:
       max-pool-size: 5
-      pool-name: ${spring.application.name}-${spring.datasource}
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate.jdbc.lob.non_contextual_creation: true
