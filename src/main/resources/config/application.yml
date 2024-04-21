@@ -9,5 +9,15 @@ spring:
       max-pool-size: 5
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate.jdbc.lob.non_contextual_creation: true
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "health,info,env,beans,metrics,prometheus"
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: http://tempo.sre.svc.cluster.local:4318/v1/traces

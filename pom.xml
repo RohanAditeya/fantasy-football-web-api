@@ -4,12 +4,12 @@
 
     <groupId>com.fantasy.football</groupId>
     <artifactId>fantasy-football-web-api</artifactId>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>com.framework.another.boot</groupId>
         <artifactId>another-boot-starter-parent</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.2</version>
     </parent>
 
     <properties>
@@ -28,6 +28,10 @@
         <dependency>
             <groupId>com.framework.another.boot</groupId>
             <artifactId>another-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.framework.another.boot</groupId>
+            <artifactId>another-boot-observability-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,6 +64,28 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build-image-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -68,6 +94,10 @@
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

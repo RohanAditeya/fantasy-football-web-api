@@ -6,3 +6,6 @@ spring:
       pool-name: ${spring.application.name}-dev
       data-source-properties:
         sslmode: disable
+logging:
+  file:
+    name: /app/logs/${spring.application.name}.log
