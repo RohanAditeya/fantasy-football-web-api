@@ -93,7 +93,8 @@
                             </image>
                             <docker>
                                 <publishRegistry>
-                                    <token>${docker.token}</token>
+                                    <username>${docker.username}</username>
+                                    <password>${docker.password}</password>
                                 </publishRegistry>
                             </docker>
                         </configuration>
