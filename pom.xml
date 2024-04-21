@@ -88,6 +88,7 @@
                         </executions>
                         <configuration>
                             <image>
+                                <runImage>paketobuildpacks/builder-jammy-full:latest</runImage>
                                 <name>ghcr.io/rohanaditeya/${project.artifactId}:${project.version}</name>
                                 <publish>true</publish>
                             </image>
