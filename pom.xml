@@ -91,6 +91,11 @@
                                 <name>ghcr.io/rohanaditeya/${project.artifactId}:${project.version}</name>
                                 <publish>true</publish>
                             </image>
+                            <docker>
+                                <publishRegistry>
+                                    <token>${docker.token}</token>
+                                </publishRegistry>
+                            </docker>
                         </configuration>
                     </plugin>
                 </plugins>

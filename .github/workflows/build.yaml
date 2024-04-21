@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test with Maven
         if: github.ref_type == 'branch' && !(startsWith(github.ref_name, 'release') || startsWith(github.ref_name, 'main'))
-        run: mvn -Pnative -Ddocker.publishRegistry.url=${{ env.REGISTRY }} --batch-mode --update-snapshots --show-version verify
+        run: mvn -Pnative -Ddocker.publishRegistry.url=${{ env.REGISTRY }} -Ddocker.token=${{ secrets.GITHUB_TOKEN }} --batch-mode --update-snapshots --show-version verify
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy with Maven
