@@ -42,4 +42,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: run file
-        run: ls -ltr
+        run: ls -ltr target
+      - name: docker ls
+        run: docker image ls

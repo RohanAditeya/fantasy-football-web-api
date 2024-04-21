@@ -86,6 +86,11 @@
                                 <phase>package</phase>
                             </execution>
                         </executions>
+                        <configuration>
+                            <image>
+                                <tags>ghcr.io/rohanaditeya/${project.artifactId}:${project.version}</tags>
+                            </image>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
