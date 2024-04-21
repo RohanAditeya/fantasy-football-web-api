@@ -24,6 +24,12 @@
             <groupId>com.fantasy.football</groupId>
             <artifactId>fantasy-football-model</artifactId>
             <version>${fantasy-football-model.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.framework.another.boot</groupId>
