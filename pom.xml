@@ -97,6 +97,9 @@
                                     <password>${docker.password}</password>
                                 </publishRegistry>
                             </docker>
+                            <profiles>
+                                <profile>${native-compile.profile}</profile>
+                            </profiles>
                         </configuration>
                     </plugin>
                 </plugins>
