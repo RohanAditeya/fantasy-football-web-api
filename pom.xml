@@ -89,6 +89,7 @@
                         <configuration>
                             <image>
                                 <tags>ghcr.io/rohanaditeya/${project.artifactId}:${project.version}</tags>
+                                <publish>true</publish>
                             </image>
                         </configuration>
                     </plugin>

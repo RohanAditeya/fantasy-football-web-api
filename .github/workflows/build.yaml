@@ -41,7 +41,3 @@ jobs:
         run: git config user.email "release-bot@example.com" && git config user.name "release-bot" && mvn --batch-mode release:clean release:prepare release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: run file
-        run: ls -ltr target
-      - name: docker ls
-        run: docker image ls
