@@ -114,6 +114,31 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-image-no-fork</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-full:latest</builder>
+                        <runImage>paketobuildpacks/builder-jammy-full:latest</runImage>
+                        <name>ghcr.io/rohanaditeya/${project.artifactId}:${project.version}</name>
+                        <publish>true</publish>
+                    </image>
+                    <docker>
+                        <publishRegistry>
+                            <username>${docker.username}</username>
+                            <password>${docker.password}</password>
+                        </publishRegistry>
+                    </docker>
+                    <profiles>
+                        <profile>${native-compile.profile}</profile>
+                    </profiles>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
