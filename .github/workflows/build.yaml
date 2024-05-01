@@ -37,6 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/delete-package-versions@v5
+        name: delete old versions
         with:
           package-name: 'com.fantasy.football.fantasy-football-web-api'
           package-type: 'maven'
