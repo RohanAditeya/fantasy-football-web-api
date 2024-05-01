@@ -28,12 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test with Maven
         if: github.ref_type == 'branch' && !(startsWith(github.ref_name, 'release') || startsWith(github.ref_name, 'main'))
-        run: mvn -Pnative -Ddocker.publishRegistry.url=${{ env.REGISTRY }} -Ddocker.username=${{ github.actor }} -Ddocker.password=${{ secrets.GITHUB_TOKEN }} --batch-mode --update-snapshots --show-version verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy with Maven
-        if: github.ref_type == 'branch' && (startsWith(github.ref_name, 'release'))
-        run: mvn --batch-mode --show-version deploy
+        run: mvn -Pnative -Dspring-boot.aot.jvmArguments="-Dspring.main.cloud-platform=kubernetes" -Ddocker.publishRegistry.url=${{ env.REGISTRY }} -Ddocker.publishRegistry.username=${{ github.actor }} -Ddocker.publishRegistry.password=${{ secrets.GITHUB_TOKEN }} -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }} --batch-mode --update-snapshots --show-version package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release with Maven
@@ -41,3 +36,8 @@ jobs:
         run: git config user.email "release-bot@example.com" && git config user.name "release-bot" && mvn --batch-mode release:clean release:prepare release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'com.fantasy.football.fantasy-football-web-api'
+          package-type: 'maven'
+          min-versions-to-keep: 2
