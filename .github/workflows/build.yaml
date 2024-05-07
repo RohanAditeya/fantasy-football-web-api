@@ -20,12 +20,18 @@ jobs:
           distribution: 'corretto'
           cache: maven
           check-latest: true
+      - name: downcase Owner
+        run: |
+          echo "OWNER=${GITHUB_REPOSITORY_OWNER@L}" >>${GITHUB_ENV}
+      - name: Log in to the Github packages Docker Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test with Maven
         if: github.ref_type == 'branch' && !(startsWith(github.ref_name, 'release') || startsWith(github.ref_name, 'main'))
-        run: mvn --batch-mode --update-snapshots --show-version verify
-      - name: Deploy with Maven
-        if: github.ref_type == 'branch' && (startsWith(github.ref_name, 'release'))
-        run: mvn --batch-mode --show-version deploy
+        run: mvn -Pnative -Dspring-boot.aot.jvmArguments="-Dspring.main.cloud-platform=kubernetes -Dlogging.file.name=app.log" -Ddocker.publishRegistry.url=${{ env.REGISTRY }} -Ddocker.publishRegistry.username=${{ github.actor }} -Ddocker.publishRegistry.password=${{ secrets.GITHUB_TOKEN }} -Dimage-repo=${{ env.REGISTRY }}/${OWNER} --batch-mode --update-snapshots --show-version package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release with Maven
@@ -33,21 +39,9 @@ jobs:
         run: git config user.email "release-bot@example.com" && git config user.name "release-bot" && mvn --batch-mode release:clean release:prepare release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Log in to the Github packages Docker Container registry
-        uses: docker/login-action@v3
+      - uses: actions/delete-package-versions@v5
+        name: delete old versions
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          package-name: 'com.fantasy.football.fantasy-football-web-api'
+          package-type: 'maven'
+          min-versions-to-keep: 2

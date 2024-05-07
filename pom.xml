@@ -4,19 +4,22 @@
 
     <groupId>com.fantasy.football</groupId>
     <artifactId>fantasy-football-web-api</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>com.framework.another.boot</groupId>
         <artifactId>another-boot-starter-parent</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.5</version>
     </parent>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fantasy-football-model.version>1.0.0</fantasy-football-model.version>
+        <fantasy-football-model.version>1.0.2</fantasy-football-model.version>
+        <image-repo>docker.io/library</image-repo>
+        <docker.publishRegistry.url>docker.io</docker.publishRegistry.url>
     </properties>
 
     <dependencies>
@@ -24,10 +27,20 @@
             <groupId>com.fantasy.football</groupId>
             <artifactId>fantasy-football-model</artifactId>
             <version>${fantasy-football-model.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.framework.another.boot</groupId>
             <artifactId>another-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.framework.another.boot</groupId>
+            <artifactId>another-boot-observability-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -65,9 +78,36 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-image-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <image>
+                        <name>${image-repo}/${project.artifactId}:${project.version}</name>
+                        <publish>true</publish>
+                        <env>
+                            <BP_JVM_VERSION>21</BP_JVM_VERSION>
+                        </env>
+                    </image>
+                    <docker>
+                        <publishRegistry>
+                            <url>${docker.publishRegistry.url}</url>
+                            <username>${docker.publishRegistry.username}</username>
+                            <password>${docker.publishRegistry.password}</password>
+                        </publishRegistry>
+                    </docker>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://postgresql.domain.com:5432/fantasy_football
-    hikari:
-      schema: dev
-      pool-name: ${spring.application.name}-local
-      data-source-properties:
-        sslmode: disable

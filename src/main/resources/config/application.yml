@@ -3,11 +3,45 @@ spring:
     name: fantasy-football-web-api
   datasource:
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgresql.domain.com:5432/fantasy_football
     username: postgres
     password: admin
     hikari:
       max-pool-size: 5
+      schema: dev
+      pool-name: ${spring.application.name}-local
+      data-source-properties:
+        sslmode: disable
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate.jdbc.lob.non_contextual_creation: true
+management:
+  endpoint:
+    env:
+      show-values: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "health,info,env,beans,metrics,prometheus"
+---
+spring:
+  config:
+    activate:
+      on-cloud-platform: kubernetes
+  datasource:
+    url: jdbc:postgresql://cloud-postgresql.postgres.svc.cluster.local:5432/fantasy_football
+    hikari:
+      schema: dev
+      pool-name: ${spring.application.name}-dev
+      data-source-properties:
+        sslmode: disable
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: http://tempo.sre.svc.cluster.local:4318/v1/traces
+logging:
+  file:
+    name: /app/logs/app.log
