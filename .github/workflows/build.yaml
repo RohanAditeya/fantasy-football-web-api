@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test with Maven
         if: github.ref_type == 'branch' && !(startsWith(github.ref_name, 'release') || startsWith(github.ref_name, 'main'))
-        run: mvn -Pnative -Dspring-boot.aot.jvmArguments="-Dspring.main.cloud-platform=kubernetes -Dlogging.file.name=app.log" -Ddocker.publishRegistry.url=${{ env.REGISTRY }} -Ddocker.publishRegistry.username=${{ github.actor }} -Ddocker.publishRegistry.password=${{ secrets.GITHUB_TOKEN }} -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ github.repository }}:${{ github.ref_name }} --batch-mode --update-snapshots --show-version package
+        run: mvn -Pnative -Dspring-boot.aot.jvmArguments="-Dspring.main.cloud-platform=kubernetes -Dlogging.file.name=app.log" -Ddocker.publishRegistry.url=${{ env.REGISTRY }} -Ddocker.publishRegistry.username=${{ github.actor }} -Ddocker.publishRegistry.password=${{ secrets.GITHUB_TOKEN }} -Dimage-repo=${{ env.REGISTRY }}/${{ github.repository_owner }} --batch-mode --update-snapshots --show-version package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release with Maven
