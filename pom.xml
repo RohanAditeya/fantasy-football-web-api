@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fantasy-football-model.version>1.0.2</fantasy-football-model.version>
         <image-repo>docker.io/library</image-repo>
+        <docker.publishRegistry.url>docker.io</docker.publishRegistry.url>
     </properties>
 
     <dependencies>
@@ -92,6 +93,13 @@
                             <BP_JVM_VERSION>21</BP_JVM_VERSION>
                         </env>
                     </image>
+                    <docker>
+                        <publishRegistry>
+                            <url>${docker.publishRegistry.url}</url>
+                            <username>${docker.publishRegistry.username}</username>
+                            <password>${docker.publishRegistry.password}</password>
+                        </publishRegistry>
+                    </docker>
                 </configuration>
             </plugin>
             <plugin>
