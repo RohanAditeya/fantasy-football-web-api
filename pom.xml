@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.framework.another.boot</groupId>
         <artifactId>another-boot-starter-parent</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
     </parent>
 
     <properties>
