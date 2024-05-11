@@ -22,7 +22,7 @@ management:
     enabled-by-default: true
     web:
       exposure:
-        include: "health,info,env,beans,metrics,prometheus"
+        include: "health,info,env,beans,metrics"
 ---
 spring:
   config:
@@ -41,7 +41,10 @@ management:
       probability: 1.0
   otlp:
     tracing:
-      endpoint: http://tempo.sre.svc.cluster.local:4318/v1/traces
+      endpoint: http://opentelemetry-collector.sre.svc.cluster.local:4318/v1/traces
+    metrics:
+      export:
+        url: http://opentelemetry-collector.sre.svc.cluster.local:4318/v1/metrics
 logging:
   file:
     name: /app/logs/app.log
