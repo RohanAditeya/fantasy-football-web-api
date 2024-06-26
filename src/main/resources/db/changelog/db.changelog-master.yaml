@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id:  fpl-tables
+      author:  rohan-aditeya
+      created: 06/2024
+      changes:
+        - sqlFile:
+            path: DDL/schema.sql
+            relativeToChangelogFile: true

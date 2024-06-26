@@ -11,6 +11,10 @@ spring:
       enabled: true
       max-size: 5
       initial-size: 5
+  liquibase:
+    url: jdbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev&sslmode=disable
+    user: postgres
+    password: admin
 management:
   tracing:
     enabled: false
