@@ -1,20 +1,6 @@
 spring:
   application:
     name: fantasy-football-web-api
-  r2dbc:
-    url: r2dbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev
-    username: postgres
-    password: admin
-    properties:
-      sslmode: disable
-    pool:
-      enabled: true
-      max-size: 5
-      initial-size: 5
-  liquibase:
-    url: jdbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev&sslmode=disable
-    user: postgres
-    password: admin
 management:
   tracing:
     enabled: false
@@ -30,6 +16,26 @@ management:
     metrics:
       export:
         enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - "!unit"
+  r2dbc:
+    url: r2dbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev
+    username: postgres
+    password: admin
+    properties:
+      sslmode: disable
+    pool:
+      enabled: true
+      max-size: 5
+      initial-size: 5
+  liquibase:
+    url: jdbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev&sslmode=disable
+    user: postgres
+    password: admin
 ---
 spring:
   config:
