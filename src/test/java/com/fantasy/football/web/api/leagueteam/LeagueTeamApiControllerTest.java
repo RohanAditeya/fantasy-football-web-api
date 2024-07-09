@@ -2,7 +2,7 @@ package com.fantasy.football.web.api.leagueteam;
 
 import com.fantasy.football.model.LeagueTeam;
 import com.fantasy.football.web.api.core.BaseTestExtension;
-import com.fantasy.football.web.api.service.repository.LeagueTeamRepository;
+import com.fantasy.football.web.api.leagueteam.repository.LeagueTeamRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
