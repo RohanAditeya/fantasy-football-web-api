@@ -41,4 +41,9 @@ public class LeagueTeamApiServiceImpl implements LeagueTeamApiService {
 		else
 			throw new BadInputException("Request needs to provided with at least one of [teamName, teamCode, recordId] headers", HttpStatus.BAD_REQUEST.value());
 	}
+
+	@Override
+	public Mono<LeagueTeam> updateLeagueTeamRecord(String teamName, Integer teamCode, UUID recordId) {
+		return null;
+	}
 }

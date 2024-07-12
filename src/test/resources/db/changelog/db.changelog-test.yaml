@@ -45,3 +45,42 @@ databaseChangeLog:
               - column:
                   name: NAME
                   value: 'Chelsea'
+        - insert:
+            tableName: LEAGUE_TEAM
+            columns:
+              - column:
+                  name: SHRT_NAME
+                  value: 'MCI'
+              - column:
+                  name: CODE
+                  valueNumeric: 2000
+              - column:
+                  name: DRAW
+                  valueNumeric: 0
+              - column:
+                  name: FORM
+                  valueNumeric: 10
+              - column:
+                  name: LOSS
+                  valueNumeric: 10
+              - column:
+                  name: PLAYED
+                  valueNumeric: 10
+              - column:
+                  name: POINTS
+                  valueNumeric: 10
+              - column:
+                  name: POSITION
+                  valueNumeric: 18
+              - column:
+                  name: WIN
+                  valueNumeric: 0
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  valueComputed: RANDOM_UUID()
+              - column:
+                  name: NAME
+                  value: 'Manchester City'

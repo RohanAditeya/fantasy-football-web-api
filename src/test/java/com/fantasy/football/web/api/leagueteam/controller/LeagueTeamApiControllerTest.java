@@ -1,5 +1,6 @@
-package com.fantasy.football.web.api.leagueteam;
+package com.fantasy.football.web.api.leagueteam.controller;
 
+import com.fantasy.football.dto.LeagueTeamPatchDto;
 import com.fantasy.football.model.LeagueTeam;
 import com.fantasy.football.web.api.core.BaseTestExtension;
 import com.fantasy.football.web.api.leagueteam.repository.LeagueTeamRepository;
@@ -44,5 +45,13 @@ public class LeagueTeamApiControllerTest extends BaseTestExtension {
 		StepVerifier.create(afterDelete)
 				.expectNext(false)
 				.verifyComplete();
+	}
+
+	@Test
+	public void updateLeagueTeamTest () {
+		webClient.patch().uri("/api/fantasy/football/v1/league-team").header("team_code", "2000")
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(Mono.just(new LeagueTeamPatchDto()), LeagueTeamPatchDto.class)
+				.exchange().expectStatus().isAccepted();
 	}
 }

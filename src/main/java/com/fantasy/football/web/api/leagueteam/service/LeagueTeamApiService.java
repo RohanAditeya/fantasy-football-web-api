@@ -9,4 +9,6 @@ public interface LeagueTeamApiService {
 
 	Mono<LeagueTeam> validateAndSaveLeagueTeam(Mono<LeagueTeam> requestBody);
 	Mono<Void> deleteLeagueTeamRecord(String teamName, Integer teamCode, UUID recordId);
+	Mono<LeagueTeam> updateLeagueTeamRecord(String teamName, Integer teamCode, UUID recordId);
+	Flux<LeagueTeam>
 }
