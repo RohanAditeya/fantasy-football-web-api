@@ -38,12 +38,15 @@ public class LeagueTeamApiController implements LeagueTeamApi {
 	}
 
 	@Override
-	public Mono<ResponseEntity<Flux<LeagueTeam>>> fetchLeagueTeam(String teamName, Integer teamCode, UUID recordId, @Valid Integer pageNumber, ServerWebExchange exchange) {
-		return null;
+	public Mono<ResponseEntity<Flux<LeagueTeam>>> fetchLeagueTeam(String teamName, Integer teamCode, UUID recordId, @Valid Integer pageNumber, @Valid Integer pageSize, ServerWebExchange exchange) {
+		log.info("Received request to fetch league team record");
+		return Mono.just(ResponseEntity.ok(leagueTeamApiService.fetchLeagueTeamRecords(teamName, teamCode, recordId, pageNumber, pageSize)));
 	}
 
 	@Override
 	public Mono<ResponseEntity<LeagueTeam>> updateLeagueTeam(@Valid Mono<LeagueTeamPatchDto> leagueTeamPatchDto, String teamName, Integer teamCode, UUID recordId, ServerWebExchange exchange) {
-		return null;
+		log.info("Received request to update league team record");
+		return leagueTeamApiService.updateLeagueTeamRecord(teamName, teamCode, recordId, leagueTeamPatchDto)
+				.map(updatedLeagueTeam -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedLeagueTeam));
 	}
 }

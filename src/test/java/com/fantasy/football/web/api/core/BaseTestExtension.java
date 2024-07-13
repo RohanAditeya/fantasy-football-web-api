@@ -7,13 +7,21 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.ActiveProfiles;
+import reactor.blockhound.BlockHound;
 
 import javax.sql.DataSource;
+import java.util.UUID;
 
 @SpringBootTest
 @ActiveProfiles(profiles = {"unit"})
 @Import(value = BaseTestExtension.JdbcBeansConfiguration.class)
 public class BaseTestExtension {
+
+	static {
+		BlockHound.install(builder -> {
+			builder.allowBlockingCallsInside(UUID.class.getName(), "randomUUID");
+		});
+	}
 
 	@TestConfiguration
 	static class JdbcBeansConfiguration {
