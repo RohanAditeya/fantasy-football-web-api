@@ -11,8 +11,11 @@ import java.util.UUID;
 
 @Repository
 public interface LeagueTeamRepository extends ReactiveSortingRepository<LeagueTeam, UUID>, ReactiveCrudRepository<LeagueTeam, UUID> {
-	Mono<Void> deleteByName(String teamName);
-	Mono<Void> deleteByCode(int code);
-	Flux<LeagueTeam> findByName(String teamName);
-	Mono<LeagueTeam> findByCode(Integer teamCode);
+    Mono<Void> deleteByName(String teamName);
+
+    Mono<Void> deleteByCode(int code);
+
+    Flux<LeagueTeam> findByName(String teamName);
+
+    Mono<LeagueTeam> findByCode(Integer teamCode);
 }

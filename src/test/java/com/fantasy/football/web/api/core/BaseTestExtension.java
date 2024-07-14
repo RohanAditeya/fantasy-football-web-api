@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.support.JdbcTransactionManager;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.support.TransactionTemplate;
 import reactor.blockhound.BlockHound;
 
 import javax.sql.DataSource;
@@ -17,17 +19,24 @@ import java.util.UUID;
 @Import(value = BaseTestExtension.JdbcBeansConfiguration.class)
 public class BaseTestExtension {
 
-	static {
-		BlockHound.install(builder -> {
-			builder.allowBlockingCallsInside(UUID.class.getName(), "randomUUID");
-		});
-	}
+    static {
+        BlockHound.install(builder -> {
+            builder.allowBlockingCallsInside(UUID.class.getName(), "randomUUID");
+        });
+    }
 
-	@TestConfiguration
-	static class JdbcBeansConfiguration {
-		@Bean
-		public DataSource dataSource () {
-			return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
-		}
-	}
+    @TestConfiguration
+    static class JdbcBeansConfiguration {
+        @Bean
+        public DataSource dataSource() {
+            return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
+        }
+
+        @Bean
+        public TransactionTemplate transactionTemplate() {
+            // Needed for Scenario API used from spring modulith
+            JdbcTransactionManager transactionManager = new JdbcTransactionManager(dataSource());
+            return new TransactionTemplate(transactionManager);
+        }
+    }
 }

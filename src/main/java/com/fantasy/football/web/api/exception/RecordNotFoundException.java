@@ -7,7 +7,7 @@ public class RecordNotFoundException extends RuntimeException {
 
     private final int status;
 
-    public RecordNotFoundException (String message, int status) {
+    public RecordNotFoundException(String message, int status) {
         super(message);
         this.status = status;
     }

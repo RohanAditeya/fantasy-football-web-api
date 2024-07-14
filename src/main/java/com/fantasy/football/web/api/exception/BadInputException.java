@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class BadInputException extends RuntimeException {
 
-	private final int status;
+    private final int status;
 
-	public BadInputException (String message, int status) {
-		super(message);
-		this.status = status;
-	}
+    public BadInputException(String message, int status) {
+        super(message);
+        this.status = status;
+    }
 }
