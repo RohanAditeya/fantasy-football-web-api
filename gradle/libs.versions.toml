@@ -1,0 +1,11 @@
+[versions]
+anotherBootPluginVersion = "2.0.2"
+gradleReleasePluginVersion = "3.0.2"
+fantasyFootballModelVersion = "2.0.1"
+
+[libraries]
+fantasyFootballModel = { group = "com.fantasy.football", name = "fantasy-football-model", version.ref = "fantasyFootballModelVersion" }
+
+[plugins]
+anotherBootPlugin = { id = "com.framework.another.boot", version.ref = "anotherBootPluginVersion" }
+gradleReleaePlugin = { id = "net.researchgate.release", version.ref = "gradleReleasePluginVersion" }
