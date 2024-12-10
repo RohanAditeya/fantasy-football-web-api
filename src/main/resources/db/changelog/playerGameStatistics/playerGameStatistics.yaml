@@ -99,6 +99,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+              - column:
+                  name: TOTAL_POINTS
+                  type: INT
+                  remarks: Total points in the current season
         - addPrimaryKey:
             tableName: PLYR_GAME_STCS
             columnNames: RECORD_ID
