@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.anotherBootPlugin)
     `maven-publish`
     alias(libs.plugins.gradleReleaePlugin)
+    alias(libs.plugins.lombokPlugin)
 }
 
 group = "com.framework.another.boot"
@@ -19,6 +20,7 @@ java {
 
 tasks.test {
     useJUnitPlatform()
+    jvmArgs("-XX:+AllowRedefinitionToAddDeleteMethods")
 }
 
 repositories {
@@ -37,7 +39,7 @@ repositories {
 
 the<DependencyManagementExtension>().apply {
     imports {
-        mavenBom("org.springframework.modulith:spring-modulith-bom:1.3.0")
+        mavenBom(libs.springModulithBom.get().toString())
     }
 }
 
@@ -49,7 +51,6 @@ dependencies {
     implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.postgresql:r2dbc-postgresql")
     implementation("io.r2dbc:r2dbc-pool")
-    implementation("org.projectlombok:lombok")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql")
@@ -57,7 +58,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.r2dbc:r2dbc-h2")
     testImplementation("io.projectreactor:reactor-test")
-    testImplementation("io.projectreactor.tools:blockhound:1.0.10.RELEASE")
+    testImplementation(libs.reactorBlockhound)
     testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 }
 
