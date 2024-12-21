@@ -3,6 +3,7 @@ package com.fantasy.football.web.api;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.core.ApplicationModule;
 import org.springframework.modulith.core.ApplicationModules;
+import org.springframework.modulith.docs.Documenter;
 
 public class SpringModulithTests {
 
@@ -10,8 +11,6 @@ public class SpringModulithTests {
     public void verifyModulesTest() {
         ApplicationModules modules = ApplicationModules.of(FantasyFootballWebApplication.class);
         modules.verify();
-        for (ApplicationModule module : modules) {
-            System.out.println(module);
-        }
+        new Documenter(modules).writeDocumentation();
     }
 }

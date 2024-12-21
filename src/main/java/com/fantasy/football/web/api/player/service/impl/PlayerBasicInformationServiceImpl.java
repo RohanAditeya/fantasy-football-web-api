@@ -6,7 +6,6 @@ import com.fantasy.football.web.api.events.PlayerBasicInformationChangedEvents;
 import com.fantasy.football.web.api.player.repository.PlayerBasicInformationRepository;
 import com.fantasy.football.web.api.player.service.PlayerBasicInformationService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.modulith.events.ApplicationModuleListener;
