@@ -1,7 +1,7 @@
 package com.fantasy.football.web.api.fantasy.service.impl;
 
 import com.fantasy.football.model.PlayerFantasyStatistics;
-import com.fantasy.football.web.api.events.PlayerBasicInformationChangedEvents;
+import com.fantasy.football.web.api.common.events.PlayerBasicInformationChangedEvents;
 import com.fantasy.football.web.api.fantasy.repository.PlayerFantasyStatisticsRepository;
 import com.fantasy.football.web.api.fantasy.service.PlayerFantasyStatisticsService;
 import lombok.extern.slf4j.Slf4j;

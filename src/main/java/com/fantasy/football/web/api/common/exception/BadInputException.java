@@ -1,4 +1,4 @@
-package com.fantasy.football.web.api.exception;
+package com.fantasy.football.web.api.common.exception;
 
 import lombok.Getter;
 

@@ -2,22 +2,19 @@ package com.fantasy.football.web.api.leagueteam.service.impl;
 
 import com.fantasy.football.dto.LeagueTeamPatchDto;
 import com.fantasy.football.model.LeagueTeam;
-import com.fantasy.football.web.api.exception.BadInputException;
-import com.fantasy.football.web.api.exception.RecordNotFoundException;
+import com.fantasy.football.web.api.common.exception.BadInputException;
+import com.fantasy.football.web.api.common.exception.RecordNotFoundException;
 import com.fantasy.football.web.api.leagueteam.repository.LeagueTeamRepository;
 import com.fantasy.football.web.api.leagueteam.service.LeagueTeamApiService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.SignalType;
 
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
 
 @Slf4j
 @Service

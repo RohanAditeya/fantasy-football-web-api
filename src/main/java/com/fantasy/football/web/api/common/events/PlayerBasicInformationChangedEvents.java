@@ -1,4 +1,4 @@
-package com.fantasy.football.web.api.events;
+package com.fantasy.football.web.api.common.events;
 
 import com.fantasy.football.dto.CreateLeaguePlayerRequest;
 

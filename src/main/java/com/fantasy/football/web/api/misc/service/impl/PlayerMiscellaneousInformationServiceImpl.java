@@ -1,7 +1,7 @@
 package com.fantasy.football.web.api.misc.service.impl;
 
 import com.fantasy.football.model.PlayerMiscellaneousInformation;
-import com.fantasy.football.web.api.events.PlayerBasicInformationChangedEvents;
+import com.fantasy.football.web.api.common.events.PlayerBasicInformationChangedEvents;
 import com.fantasy.football.web.api.misc.repository.PlayerMiscellaneousInformationRepository;
 import com.fantasy.football.web.api.misc.service.PlayerMiscellaneousInformationService;
 import lombok.extern.slf4j.Slf4j;
