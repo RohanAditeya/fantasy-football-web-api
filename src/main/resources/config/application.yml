@@ -20,26 +20,6 @@ management:
 spring:
   config:
     activate:
-      on-profile:
-        - "!unit"
-  r2dbc:
-    url: r2dbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev
-    username: postgres
-    password: admin
-    properties:
-      sslmode: disable
-    pool:
-      enabled: true
-      max-size: 5
-      initial-size: 5
-  liquibase:
-    url: jdbc:postgresql://postgresql.domain.com:5432/fantasy_football?currentSchema=dev&sslmode=disable
-    user: postgres
-    password: admin
----
-spring:
-  config:
-    activate:
       on-cloud-platform: kubernetes
   r2dbc:
     url: r2dbc:postgresql://cloud-postgresql.postgres.svc.cluster.local:5432/fantasy_football?currentSchema=dev

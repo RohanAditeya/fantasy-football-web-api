@@ -1,11 +1,11 @@
-package com.fantasy.football.web.api.leagueteam.service.impl;
+package com.fantasy.football.web.api.service.impl;
 
 import com.fantasy.football.dto.LeagueTeamPatchDto;
 import com.fantasy.football.model.LeagueTeam;
-import com.fantasy.football.web.api.common.exception.BadInputException;
-import com.fantasy.football.web.api.common.exception.RecordNotFoundException;
-import com.fantasy.football.web.api.leagueteam.repository.LeagueTeamRepository;
-import com.fantasy.football.web.api.leagueteam.service.LeagueTeamApiService;
+import com.fantasy.football.web.api.exception.BadInputException;
+import com.fantasy.football.web.api.exception.RecordNotFoundException;
+import com.fantasy.football.web.api.repository.LeagueTeamRepository;
+import com.fantasy.football.web.api.service.LeagueTeamApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;

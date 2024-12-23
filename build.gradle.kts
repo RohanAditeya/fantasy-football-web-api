@@ -1,5 +1,3 @@
-import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
-
 plugins {
     application
     alias(libs.plugins.anotherBootPlugin)
@@ -21,6 +19,9 @@ java {
 tasks.test {
     useJUnitPlatform()
     jvmArgs("-XX:+AllowRedefinitionToAddDeleteMethods")
+    testLogging {
+        showStandardStreams = true
+    }
 }
 
 repositories {
@@ -37,29 +38,20 @@ repositories {
     }
 }
 
-the<DependencyManagementExtension>().apply {
-    imports {
-        mavenBom(libs.springModulithBom.get().toString())
-    }
-}
-
 dependencies {
     implementation(libs.fantasyFootballModel)
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("com.framework.another.boot:another-boot-starter-webflux")
     implementation("com.framework.another.boot:another-boot-observability-starter")
-    implementation("org.springframework.modulith:spring-modulith-starter-core")
     implementation("org.postgresql:r2dbc-postgresql")
     implementation("io.r2dbc:r2dbc-pool")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql")
-    implementation("org.springframework.modulith:spring-modulith-events-api")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.r2dbc:r2dbc-h2")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation(libs.reactorBlockhound)
-    testImplementation("org.springframework.modulith:spring-modulith-starter-test")
 }
 
 tasks.beforeReleaseBuild {

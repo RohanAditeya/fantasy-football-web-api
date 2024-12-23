@@ -1,4 +1,4 @@
-package com.fantasy.football.web.api.leagueteam.repository;
+package com.fantasy.football.web.api.repository;
 
 import com.fantasy.football.model.LeagueTeam;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

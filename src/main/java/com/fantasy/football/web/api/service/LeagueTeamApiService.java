@@ -1,4 +1,4 @@
-package com.fantasy.football.web.api.leagueteam.service;
+package com.fantasy.football.web.api.service;
 
 import com.fantasy.football.dto.LeagueTeamPatchDto;
 import com.fantasy.football.model.LeagueTeam;
