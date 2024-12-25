@@ -6,6 +6,8 @@ import com.fantasy.football.web.api.exception.BadInputException;
 import com.fantasy.football.web.api.exception.RecordNotFoundException;
 import com.fantasy.football.web.api.repository.LeagueTeamRepository;
 import com.fantasy.football.web.api.service.LeagueTeamApiService;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -18,13 +20,10 @@ import java.util.UUID;
 
 @Slf4j
 @Service
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 class LeagueTeamApiServiceImpl implements LeagueTeamApiService {
 
     private final LeagueTeamRepository leagueTeamRepository;
-
-    LeagueTeamApiServiceImpl(LeagueTeamRepository leagueTeamRepository) {
-        this.leagueTeamRepository = leagueTeamRepository;
-    }
 
     @Override
     public Mono<LeagueTeam> validateAndSaveLeagueTeam(Mono<LeagueTeam> requestBody) {

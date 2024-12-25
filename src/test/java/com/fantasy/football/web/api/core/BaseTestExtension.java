@@ -31,12 +31,5 @@ public class BaseTestExtension {
         public DataSource dataSource() {
             return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
         }
-
-        @Bean
-        public TransactionTemplate transactionTemplate() {
-            // Needed for Scenario API used from spring modulith
-            JdbcTransactionManager transactionManager = new JdbcTransactionManager(dataSource());
-            return new TransactionTemplate(transactionManager);
-        }
     }
 }

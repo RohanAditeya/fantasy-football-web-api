@@ -5,6 +5,8 @@ import com.fantasy.football.model.LeagueTeam;
 import com.fantasy.football.reactive.controller.LeagueTeamApi;
 import com.fantasy.football.web.api.service.LeagueTeamApiService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +19,10 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 class LeagueTeamApiController implements LeagueTeamApi {
 
     private final LeagueTeamApiService leagueTeamApiService;
-
-    LeagueTeamApiController(LeagueTeamApiService leagueTeamApiService) {
-        this.leagueTeamApiService = leagueTeamApiService;
-    }
 
     @Override
     public Mono<ResponseEntity<LeagueTeam>> createLeagueTeam(@Valid Mono<LeagueTeam> body, ServerWebExchange exchange) {
