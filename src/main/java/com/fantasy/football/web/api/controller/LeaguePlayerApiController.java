@@ -34,7 +34,7 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
 
     @Override
     public Mono<ResponseEntity<Void>> deleteLeaguePlayer(UUID recordId, String playerCode, ServerWebExchange exchange) {
-        return null;
+        return playerBasicInformationService.deleteLeaguePlayerBasicInfoRecord(recordId, playerCode != null ? Long.valueOf(playerCode) : null).thenReturn(ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
 
     @Override

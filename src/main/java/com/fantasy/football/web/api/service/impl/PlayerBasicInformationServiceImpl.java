@@ -2,6 +2,7 @@ package com.fantasy.football.web.api.service.impl;
 
 import com.fantasy.football.dto.CreateLeaguePlayerRequest;
 import com.fantasy.football.model.PlayerBasicInformation;
+import com.fantasy.football.web.api.exception.BadInputException;
 import com.fantasy.football.web.api.repository.PlayerBasicInformationRepository;
 import com.fantasy.football.web.api.service.PlayerBasicInformationService;
 import com.fantasy.football.web.api.service.PlayerFantasyStatisticsService;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -36,6 +38,24 @@ class PlayerBasicInformationServiceImpl implements PlayerBasicInformationService
                 .zipWhen(request -> playerMiscellaneousInformationService.validateAndSavePlayerMiscellaneousInformation(Mono.just(request.getMiscellaneousInfo())), (request, miscellaneousInformation) -> request)
                 .doOnSuccess(createRequest -> log.info("Saved player miscellaneous statistics with record id {} for player {}", createRequest.getMiscellaneousInfo().getRecordId(), createRequest.getBasicInfo().getRecordId()))
                 .flatMap(request -> playerBasicInformationRepository.save(request.getBasicInfo()));
+    }
+
+    @Override
+    public Mono<Void> deleteLeaguePlayerBasicInfoRecord(UUID recordId, Long playerCode) {
+        Mono<PlayerBasicInformation> recordToBeDeletedMono = Optional.ofNullable(recordId).map(playerBasicInformationRepository::findById)
+                .or(() -> Optional.ofNullable(playerCode).map(playerBasicInformationRepository::findByCode)).orElseThrow(() -> new BadInputException("Request must provide either record_id or player_code header", 404));
+        return recordToBeDeletedMono
+                .doOnNext(recordToBeDeleted -> log.info("Found record for ID: {} and player code: {} to delete", recordId, playerCode))
+                .flatMap(recordToBeDeleted -> playerBasicInformationRepository.deleteById(recordToBeDeleted.getRecordId()).thenReturn(recordToBeDeleted))
+                .doOnNext(recordToBeDeleted -> log.info("Deleted record with id {} or player code {}", recordToBeDeleted.getRecordId(), recordToBeDeleted.getCode()))
+                .flatMap(recordToBeDeleted -> playerFantasyStatisticsService.deleteFantasyStatisticsRecordByRecordId(recordToBeDeleted.getPlayerFantasyStatistics()).thenReturn(recordToBeDeleted))
+                .doOnNext(recordToBeDeleted -> log.info("Deleted fantasy statistics record with id {} for player {}", recordToBeDeleted.getPlayerFantasyStatistics(), recordToBeDeleted.getRecordId()))
+                .flatMap(recordToBeDeleted -> playerGameStatisticsService.deleteGameStatisticsRecordById(recordToBeDeleted.getPlayerGameStatistics()).thenReturn(recordToBeDeleted))
+                .doOnNext(recordToBeDeleted -> log.info("Deleted game statistics record with id {} for player {}", recordToBeDeleted.getPlayerGameStatistics(), recordToBeDeleted.getRecordId()))
+                .flatMap(recordToBeDeleted -> playerMiscellaneousInformationService.deleteMiscellaneousInformationRecordById(recordToBeDeleted.getPlayerMiscellaneousInformation()).thenReturn(recordToBeDeleted))
+                .doOnNext(recordToBeDeleted -> log.info("Deleted miscellaneous statistics record with id {} for player {}", recordToBeDeleted.getPlayerMiscellaneousInformation(), recordToBeDeleted.getRecordId()))
+                .switchIfEmpty(Mono.<PlayerBasicInformation>empty().doOnSuccess(voidType -> log.info("No player record found to delete for id {} and player code {}", recordId, playerCode)))
+                .then();
     }
 
     private void assignRecordIdsForEntities(CreateLeaguePlayerRequest createLeaguePlayerRequest) {

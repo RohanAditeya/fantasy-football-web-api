@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 class PlayerMiscellaneousInformationServiceImpl implements PlayerMiscellaneousInformationService {
@@ -18,5 +20,10 @@ class PlayerMiscellaneousInformationServiceImpl implements PlayerMiscellaneousIn
     public Mono<PlayerMiscellaneousInformation> validateAndSavePlayerMiscellaneousInformation(Mono<PlayerMiscellaneousInformation> playerMiscellaneousInformation) {
         return playerMiscellaneousInformation
                 .flatMap(playerMiscellaneousInformationRepository::save);
+    }
+
+    @Override
+    public Mono<Void> deleteMiscellaneousInformationRecordById(UUID recordId) {
+        return playerMiscellaneousInformationRepository.deleteById(recordId);
     }
 }

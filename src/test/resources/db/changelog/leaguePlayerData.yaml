@@ -1,0 +1,122 @@
+databaseChangeLog:
+  - changeSet:
+      runOrder: "last"
+      id: player-data-for-unit-tests
+      author: rohan-aditeya
+      changes:
+#       For unit test LeaguePlayerApiControllerTest#deleteLeaguePlayerWithRecordIdAlreadyExistingTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: e994d032-35aa-48cb-886d-d1bd42b9717e
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 66cc42d8-5afa-4826-8e5f-2d45eac24dff
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 32ee66b4-ee3f-4a22-a59a-e9c1fef50109
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 2000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: e994d032-35aa-48cb-886d-d1bd42b9717e
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 66cc42d8-5afa-4826-8e5f-2d45eac24dff
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: 32ee66b4-ee3f-4a22-a59a-e9c1fef50109
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 87fdc851-a293-4ca8-9a80-abcb367d7d4f
+              - column:
+                  name: FRST_NAME
+                  value: 'Lewis skelly'
+              - column:
+                  name: SECD_NAME
+                  value: Miles
+#       For unit test LeaguePlayerApiControllerTest#deleteLeaguePlayerWithPlayerCodeAlreadyExistingTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 58d49d40-b658-4d56-9309-07f0f79ef8ec
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 02c2b0d3-8944-469a-90ed-ffc852456259
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: dcebf1c1-01dc-4d23-a1f4-1d3d9227501f
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 3000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: 58d49d40-b658-4d56-9309-07f0f79ef8ec
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 02c2b0d3-8944-469a-90ed-ffc852456259
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: dcebf1c1-01dc-4d23-a1f4-1d3d9227501f
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 0acf5138-f932-482c-91bb-b1f83cbb88a7
+              - column:
+                  name: FRST_NAME
+                  value: Ethan
+              - column:
+                  name: SECD_NAME
+                  value: Nwaneri

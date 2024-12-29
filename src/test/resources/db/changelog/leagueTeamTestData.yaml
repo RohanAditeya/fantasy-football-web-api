@@ -532,6 +532,7 @@ databaseChangeLog:
               - column:
                   name: NAME
                   value: 'Everton'
+#                  Used in test cases in LeaguePlayerApiControllerTest
         - insert:
             tableName: LEAGUE_TEAM
             columns:

@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 class PlayerGameStatisticsServiceImpl implements PlayerGameStatisticsService {
@@ -18,5 +20,10 @@ class PlayerGameStatisticsServiceImpl implements PlayerGameStatisticsService {
     public Mono<PlayerGameStatistics> validateAndSavePlayerGameStatistics(Mono<PlayerGameStatistics> playerGameStatistics) {
         return playerGameStatistics
                 .flatMap(playerGameStatisticsRepository::save);
+    }
+
+    @Override
+    public Mono<Void> deleteGameStatisticsRecordById(UUID recordId) {
+        return playerGameStatisticsRepository.deleteById(recordId);
     }
 }

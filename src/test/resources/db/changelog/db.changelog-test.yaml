@@ -3,3 +3,5 @@ databaseChangeLog:
       file: classpath:/db/changelog/db.changelog-master.yaml
   - include:
       file: classpath:/db/changelog/leagueTeamTestData.yaml
+  - include:
+      file: classpath:/db/changelog/leaguePlayerData.yaml
