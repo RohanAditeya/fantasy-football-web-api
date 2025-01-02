@@ -34,12 +34,12 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
 
     @Override
     public Mono<ResponseEntity<Void>> deleteLeaguePlayer(UUID recordId, String playerCode, ServerWebExchange exchange) {
+        // TODO Change player code header to accept long
         return playerBasicInformationService.deleteLeaguePlayerBasicInfoRecord(recordId, playerCode != null ? Long.valueOf(playerCode) : null).thenReturn(ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
 
     @Override
     public Mono<ResponseEntity<Flux<PlayerBasicInformation>>> fetchLeaguePlayer(UUID recordId, String playerCode, String teamId, @Valid Integer pageNumber, ServerWebExchange exchange) {
-        // TODO Update model to return all records of the player.
         // TODO Update model to accept page size parameter
         // TODO Change player code header to accept long
         // TODO Change teamId header to accept UUID
@@ -48,6 +48,11 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
 
     @Override
     public Mono<ResponseEntity<PlayerBasicInformation>> updateLeaguePlayer(@Valid Mono<PlayerBasicInformationPatchDTO> playerBasicInformationPatchDTO, UUID recordId, String playerCode, ServerWebExchange exchange) {
-        return null;
+        // TODO Do we need to change Player Basic Information status field to char instead of string?
+        // TODO First name and Second name is immutable in entity and patch request accepts values for it. Either entity must be made mutable or path request entity must stop accepting first and second name.
+        return playerBasicInformationPatchDTO
+                .flatMap(patchRequest -> playerBasicInformationService.updatePlayerBasicInformation(patchRequest, recordId, playerCode != null? Long.valueOf(playerCode) : null))
+                .map(updatedRecord -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedRecord))
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.ACCEPTED).build()));
     }
 }

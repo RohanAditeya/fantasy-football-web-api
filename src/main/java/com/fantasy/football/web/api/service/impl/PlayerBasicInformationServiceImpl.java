@@ -1,6 +1,7 @@
 package com.fantasy.football.web.api.service.impl;
 
 import com.fantasy.football.dto.CreateLeaguePlayerRequest;
+import com.fantasy.football.dto.PlayerBasicInformationPatchDTO;
 import com.fantasy.football.model.PlayerBasicInformation;
 import com.fantasy.football.web.api.exception.BadInputException;
 import com.fantasy.football.web.api.repository.PlayerBasicInformationRepository;
@@ -73,6 +74,29 @@ class PlayerBasicInformationServiceImpl implements PlayerBasicInformationService
         } else {
             throw new BadInputException("Request must provide either record_id or player_code or team_id header", 400);
         }
+    }
+
+    @Override
+    public Mono<PlayerBasicInformation> updatePlayerBasicInformation(PlayerBasicInformationPatchDTO updateRequest, UUID recordId, Long playerCode) {
+        Mono<PlayerBasicInformation> updatePlayerPipeline;
+        if (recordId != null)
+            updatePlayerPipeline = playerBasicInformationRepository.findById(recordId);
+        else if (playerCode != null)
+            updatePlayerPipeline = playerBasicInformationRepository.findByCode(playerCode);
+        else
+            throw new BadInputException("Request must provide either record_id or player_code header", 400);
+        return updatePlayerPipeline.map(
+                        playerRecord -> {
+                            Optional.ofNullable(updateRequest.getStatus()).ifPresent(playerRecord::setStatus);
+                            Optional.ofNullable(updateRequest.getSquadNumber()).ifPresent(playerRecord::setSquadNumber);
+                            Optional.ofNullable(updateRequest.getTeam()).ifPresent(playerRecord::setTeam);
+                            Optional.ofNullable(updateRequest.getWebName()).ifPresent(playerRecord::setWebName);
+                            return playerRecord;
+                        }
+                )
+                .flatMap(playerBasicInformationRepository::save)
+                .doOnNext(record -> log.info("Updated player with ID {} and player code {}", record.getRecordId(), record.getCode()))
+                .switchIfEmpty(Mono.<PlayerBasicInformation>empty().doOnSuccess(voidType -> log.info("Cannot find player to update with ID {} and player code {}", recordId, playerCode)));
     }
 
 

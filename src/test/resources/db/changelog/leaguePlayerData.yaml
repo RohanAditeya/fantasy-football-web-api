@@ -579,3 +579,119 @@ databaseChangeLog:
               - column:
                   name: SECD_NAME
                   value: Ugarte
+#       For unit test LeaguePlayerApiControllerTest#updatePlayerWithRecordIdUpdatesRecordTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: c876edf7-32d1-4f7b-8daf-425001470883
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 582c6593-6a7f-4a10-b3d2-d1d1b9afdf4f
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 702f8958-fb46-49cd-9cd0-0c72032d5c2d
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 12000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: c876edf7-32d1-4f7b-8daf-425001470883
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 582c6593-6a7f-4a10-b3d2-d1d1b9afdf4f
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: 702f8958-fb46-49cd-9cd0-0c72032d5c2d
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 0707d18b-e7e1-4e62-a41c-7c03dd9ea355
+              - column:
+                  name: FRST_NAME
+                  value: Mikel
+              - column:
+                  name: SECD_NAME
+                  value: Merino
+#       For unit test LeaguePlayerApiControllerTest#updatePlayerWithPlayerCodeUpdatesRecordTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 8a287d53-1eb7-493a-9223-d03f72672c91
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: e473dbc5-ac5f-4a26-bfe8-857dcc80bfcd
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 2b79440b-134a-4b27-9425-eba85d845a51
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 13000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: 8a287d53-1eb7-493a-9223-d03f72672c91
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: e473dbc5-ac5f-4a26-bfe8-857dcc80bfcd
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: 2b79440b-134a-4b27-9425-eba85d845a51
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 1583eff5-99fc-4a83-bd75-758dd5d6c877
+              - column:
+                  name: FRST_NAME
+                  value: Declan
+              - column:
+                  name: SECD_NAME
+                  value: Rice

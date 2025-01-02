@@ -1,6 +1,7 @@
 package com.fantasy.football.web.api.controller;
 
 import com.fantasy.football.dto.CreateLeaguePlayerRequest;
+import com.fantasy.football.dto.PlayerBasicInformationPatchDTO;
 import com.fantasy.football.model.*;
 import com.fantasy.football.web.api.core.BaseTestExtension;
 import org.junit.jupiter.api.DisplayName;
@@ -92,7 +93,7 @@ public class LeaguePlayerApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "Fetch player with record_id fetches existing record from DB")
-    void fetchPlayerWithRecordIdFetchedFromDB(){
+    void fetchPlayerWithRecordIdFetchedFromDBTest(){
         Flux<PlayerBasicInformation> fetchedRecords = webClient.get().uri("/api/fantasy/football/v1/league-player")
                 .header("record_id", "f387132e-588b-4b89-ab3e-207231489122")
                 .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
@@ -111,7 +112,7 @@ public class LeaguePlayerApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "Fetch player with player_code fetches existing record from DB")
-    void fetchPlayerWithPlayerCodeFetchedFromDB(){
+    void fetchPlayerWithPlayerCodeFetchedFromDBTest(){
         Flux<PlayerBasicInformation> fetchedRecords = webClient.get().uri("/api/fantasy/football/v1/league-player")
                 .header("player_code", "5000")
                 .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
@@ -130,7 +131,7 @@ public class LeaguePlayerApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "Fetch player with team_id fetches existing records from DB")
-    void fetchPlayerWithTeamIdFetchedFromDB(){
+    void fetchPlayerWithTeamIdFetchedFromDBTest(){
         Flux<PlayerBasicInformation> fetchedRecords = webClient.get().uri("/api/fantasy/football/v1/league-player")
                 .header("player_code", "5000")
                 .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
@@ -149,7 +150,7 @@ public class LeaguePlayerApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "Fetch player with team_id and fetches existing records from DB")
-    void fetchPlayerWithTeamIdAndFetchedFromDB(){
+    void fetchPlayerWithTeamIdAndFetchedFromDBTest(){
         Flux<PlayerBasicInformation> response = webClient.get().uri("/api/fantasy/football/v1/league-player")
                 .header("team_id", "684e39fc-dec1-4b8c-b8d8-a816256ceaf6")
                 .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
@@ -160,8 +161,57 @@ public class LeaguePlayerApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "Fetch player without any headers throws error")
-    void fetchPlayerWithoutHeadersThrowsError(){
+    void fetchPlayerWithoutHeadersThrowsErrorTest(){
         webClient.get().uri("/api/fantasy/football/v1/league-player")
+                .exchange().expectStatus().is5xxServerError();
+    }
+
+    @Test
+    @DisplayName(value = "Update player with record_id header updates record")
+    void updatePlayerWithRecordIdUpdatesRecordTest(){
+        Flux<PlayerBasicInformation> response = webClient.patch().uri("/api/fantasy/football/v1/league-player")
+                .header("record_id", "0707d18b-e7e1-4e62-a41c-7c03dd9ea355")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerBasicInformationPatchDTO().firstName("Mikel").secondName("Merino").status("A"))
+                .exchange().expectStatus().isAccepted().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(updatedRecord -> {
+                    assertThat(updatedRecord.getStatus()).isEqualTo("A");
+                }).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Update player with player_code header updates record")
+    void updatePlayerWithPlayerCodeUpdatesRecordTest(){
+        Flux<PlayerBasicInformation> response = webClient.patch().uri("/api/fantasy/football/v1/league-player")
+                .header("player_code", "13000")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerBasicInformationPatchDTO().firstName("Declan").secondName("Rice").status("U"))
+                .exchange().expectStatus().isAccepted().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(updatedRecord -> {
+                    assertThat(updatedRecord.getStatus()).isEqualTo("U");
+                }).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Update player with record_id header does not update record when not found")
+    void updatePlayerWithRecordIdDoesNotUpdateRecordTest(CapturedOutput capturedOutput){
+        Flux<PlayerBasicInformation> response = webClient.patch().uri("/api/fantasy/football/v1/league-player")
+                .header("record_id", "3c2bcd43-5a87-42fb-8cb1-b43df0219ff4")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerBasicInformationPatchDTO().firstName("Unknown").secondName("Unknown").status("U"))
+                .exchange().expectStatus().isAccepted().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(response).verifyComplete();
+        assertThat(capturedOutput.getAll().contains("Cannot find player to update with ID 3c2bcd43-5a87-42fb-8cb1-b43df0219ff4 and player code null")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "Update player with no header throws error")
+    void updatePlayerWithNoHeaderThrowsErrorTest(){
+        webClient.patch().uri("/api/fantasy/football/v1/league-player")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerBasicInformationPatchDTO().firstName("Unknown").secondName("Unknown").status("U"))
                 .exchange().expectStatus().is5xxServerError();
     }
 }
