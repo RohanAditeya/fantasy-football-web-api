@@ -89,4 +89,79 @@ public class LeaguePlayerApiControllerTest extends BaseTestExtension {
         webClient.delete().uri("/api/fantasy/football/v1/league-player")
                 .exchange().expectStatus().is5xxServerError();
     }
+
+    @Test
+    @DisplayName(value = "Fetch player with record_id fetches existing record from DB")
+    void fetchPlayerWithRecordIdFetchedFromDB(){
+        Flux<PlayerBasicInformation> fetchedRecords = webClient.get().uri("/api/fantasy/football/v1/league-player")
+                .header("record_id", "f387132e-588b-4b89-ab3e-207231489122")
+                .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(fetchedRecords)
+                .assertNext(record -> {
+                    assertThat(record.getRecordId()).isEqualByComparingTo(UUID.fromString("f387132e-588b-4b89-ab3e-207231489122"));
+                    assertThat(record.getPlayerFantasyStatistics()).isEqualByComparingTo(UUID.fromString("8ee8e58e-5320-4d55-b73f-4d40fae16bc1"));
+                    assertThat(record.getPlayerGameStatistics()).isEqualByComparingTo(UUID.fromString("8186e89b-0457-4001-9ddd-450663a37cf3"));
+                    assertThat(record.getPlayerMiscellaneousInformation()).isEqualByComparingTo(UUID.fromString("aa1605ba-077a-4631-983d-05b37125e3a0"));
+                    assertThat(record.getFirstName()).isEqualTo("Leandro");
+                    assertThat(record.getSecondName()).isEqualTo("Trossard");
+                    assertThat(record.getCode()).isEqualTo(4000L);
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player with player_code fetches existing record from DB")
+    void fetchPlayerWithPlayerCodeFetchedFromDB(){
+        Flux<PlayerBasicInformation> fetchedRecords = webClient.get().uri("/api/fantasy/football/v1/league-player")
+                .header("player_code", "5000")
+                .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(fetchedRecords)
+                .assertNext(record -> {
+                    assertThat(record.getRecordId()).isEqualByComparingTo(UUID.fromString("87611fb0-0d25-40af-80fd-422b07b2dd75"));
+                    assertThat(record.getPlayerFantasyStatistics()).isEqualByComparingTo(UUID.fromString("1569af3b-5b29-431a-80b4-471dd82fe1ba"));
+                    assertThat(record.getPlayerGameStatistics()).isEqualByComparingTo(UUID.fromString("adfcd7b6-487c-4504-894f-fb2a98d97a72"));
+                    assertThat(record.getPlayerMiscellaneousInformation()).isEqualByComparingTo(UUID.fromString("b43ad5d7-7c44-4dd9-9727-ff9d7a9d5803"));
+                    assertThat(record.getFirstName()).isEqualTo("Gabriel");
+                    assertThat(record.getSecondName()).isEqualTo("Martinelli");
+                    assertThat(record.getCode()).isEqualTo(5000L);
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player with team_id fetches existing records from DB")
+    void fetchPlayerWithTeamIdFetchedFromDB(){
+        Flux<PlayerBasicInformation> fetchedRecords = webClient.get().uri("/api/fantasy/football/v1/league-player")
+                .header("player_code", "5000")
+                .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(fetchedRecords)
+                .assertNext(record -> {
+                    assertThat(record.getRecordId()).isEqualByComparingTo(UUID.fromString("87611fb0-0d25-40af-80fd-422b07b2dd75"));
+                    assertThat(record.getPlayerFantasyStatistics()).isEqualByComparingTo(UUID.fromString("1569af3b-5b29-431a-80b4-471dd82fe1ba"));
+                    assertThat(record.getPlayerGameStatistics()).isEqualByComparingTo(UUID.fromString("adfcd7b6-487c-4504-894f-fb2a98d97a72"));
+                    assertThat(record.getPlayerMiscellaneousInformation()).isEqualByComparingTo(UUID.fromString("b43ad5d7-7c44-4dd9-9727-ff9d7a9d5803"));
+                    assertThat(record.getFirstName()).isEqualTo("Gabriel");
+                    assertThat(record.getSecondName()).isEqualTo("Martinelli");
+                    assertThat(record.getCode()).isEqualTo(5000L);
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player with team_id and fetches existing records from DB")
+    void fetchPlayerWithTeamIdAndFetchedFromDB(){
+        Flux<PlayerBasicInformation> response = webClient.get().uri("/api/fantasy/football/v1/league-player")
+                .header("team_id", "684e39fc-dec1-4b8c-b8d8-a816256ceaf6")
+                .exchange().expectStatus().isOk().returnResult(PlayerBasicInformation.class).getResponseBody();
+        StepVerifier.create(response)
+                .expectNextCount(5)
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player without any headers throws error")
+    void fetchPlayerWithoutHeadersThrowsError(){
+        webClient.get().uri("/api/fantasy/football/v1/league-player")
+                .exchange().expectStatus().is5xxServerError();
+    }
 }

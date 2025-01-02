@@ -599,3 +599,70 @@ databaseChangeLog:
               - column:
                   name: NAME
                   value: 'Arsenal'
+#                  Used in test cases in LeaguePlayerApiControllerTest#fetchPlayerWithTeamIdAndPageNumberFetchedFromDB
+        - insert:
+            tableName: LEAGUE_TEAM
+            columns:
+              - column:
+                  name: SHRT_NAME
+                  value: 'BRE'
+              - column:
+                  name: CODE
+                  valueNumeric: 5000
+              - column:
+                  name: DRAW
+                  valueNumeric: 0
+              - column:
+                  name: FORM
+                  valueNumeric: 10
+              - column:
+                  name: LOSS
+                  valueNumeric: 9
+              - column:
+                  name: PLAYED
+                  valueNumeric: 9
+              - column:
+                  name: POINTS
+                  valueNumeric: 10
+              - column:
+                  name: POSITION
+                  valueNumeric: 18
+              - column:
+                  name: WIN
+                  valueNumeric: 0
+              - column:
+                  name: STRGTH
+                  valueNumeric: 10
+              - column:
+                  name: STRGTH_OVR_HOME
+                  valueNumeric: 10
+              - column:
+                  name: STRGTH_OVR_AWAY
+                  valueNumeric: 10
+              - column:
+                  name: STRGTH_ATT_HOME
+                  valueNumeric: 10
+              - column:
+                  name: STRGTH_ATT_AWAY
+                  valueNumeric: 10
+              - column:
+                  name: STRGTH_DEF_HOME
+                  valueNumeric: 10
+              - column:
+                  name: STRGTH_DEF_AWAY
+                  valueNumeric: 10
+              - column:
+                  name: PULSE_ID
+                  valueNumeric: 10
+              - column:
+                  name: UN_AVLBL
+                  valueBoolean: false
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 684e39fc-dec1-4b8c-b8d8-a816256ceaf6
+              - column:
+                  name: NAME
+                  value: 'Manchester United'

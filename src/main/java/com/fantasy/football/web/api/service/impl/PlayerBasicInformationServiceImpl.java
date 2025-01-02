@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -26,6 +27,7 @@ class PlayerBasicInformationServiceImpl implements PlayerBasicInformationService
     private final PlayerFantasyStatisticsService playerFantasyStatisticsService;
     private final PlayerGameStatisticsService playerGameStatisticsService;
     private final PlayerMiscellaneousInformationService playerMiscellaneousInformationService;
+    private static final int DEFAULT_PAGE_SIZE = 5;
 
     @Override
     public Mono<PlayerBasicInformation> validateAndSaveLeaguePlayer(Mono<CreateLeaguePlayerRequest> createLeaguePlayerRequest) {
@@ -43,7 +45,7 @@ class PlayerBasicInformationServiceImpl implements PlayerBasicInformationService
     @Override
     public Mono<Void> deleteLeaguePlayerBasicInfoRecord(UUID recordId, Long playerCode) {
         Mono<PlayerBasicInformation> recordToBeDeletedMono = Optional.ofNullable(recordId).map(playerBasicInformationRepository::findById)
-                .or(() -> Optional.ofNullable(playerCode).map(playerBasicInformationRepository::findByCode)).orElseThrow(() -> new BadInputException("Request must provide either record_id or player_code header", 404));
+                .or(() -> Optional.ofNullable(playerCode).map(playerBasicInformationRepository::findByCode)).orElseThrow(() -> new BadInputException("Request must provide either record_id or player_code header", 400));
         return recordToBeDeletedMono
                 .doOnNext(recordToBeDeleted -> log.info("Found record for ID: {} and player code: {} to delete", recordId, playerCode))
                 .flatMap(recordToBeDeleted -> playerBasicInformationRepository.deleteById(recordToBeDeleted.getRecordId()).thenReturn(recordToBeDeleted))
@@ -57,6 +59,22 @@ class PlayerBasicInformationServiceImpl implements PlayerBasicInformationService
                 .switchIfEmpty(Mono.<PlayerBasicInformation>empty().doOnSuccess(voidType -> log.info("No player record found to delete for id {} and player code {}", recordId, playerCode)))
                 .then();
     }
+
+    @Override
+    public Flux<PlayerBasicInformation> fetchLeaguePlayer(UUID recordId, Long playerCode, String teamId, Integer pageNumber) {
+        if (recordId != null) {
+            return playerBasicInformationRepository.findById(recordId).flux();
+        } else if (playerCode != null) {
+            return playerBasicInformationRepository.findByCode(playerCode).flux();
+        } else if (teamId != null) {
+            return playerBasicInformationRepository.findByTeam(UUID.fromString(teamId))
+                    .skip((Optional.ofNullable(pageNumber).orElse(1) - 1L) * DEFAULT_PAGE_SIZE)
+                    .take(DEFAULT_PAGE_SIZE);
+        } else {
+            throw new BadInputException("Request must provide either record_id or player_code or team_id header", 400);
+        }
+    }
+
 
     private void assignRecordIdsForEntities(CreateLeaguePlayerRequest createLeaguePlayerRequest) {
         UUID fantasyStatisticsRecordId = UUID.randomUUID();

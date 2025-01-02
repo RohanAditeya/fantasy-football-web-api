@@ -39,7 +39,11 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
 
     @Override
     public Mono<ResponseEntity<Flux<PlayerBasicInformation>>> fetchLeaguePlayer(UUID recordId, String playerCode, String teamId, @Valid Integer pageNumber, ServerWebExchange exchange) {
-        return null;
+        // TODO Update model to return all records of the player.
+        // TODO Update model to accept page size parameter
+        // TODO Change player code header to accept long
+        // TODO Change teamId header to accept UUID
+        return Mono.just(ResponseEntity.ok(playerBasicInformationService.fetchLeaguePlayer(recordId, playerCode != null ? Long.valueOf(playerCode) : null, teamId, pageNumber)));
     }
 
     @Override

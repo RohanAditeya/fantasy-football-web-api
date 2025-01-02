@@ -4,6 +4,7 @@ plugins {
     `maven-publish`
     alias(libs.plugins.gradleReleaePlugin)
     alias(libs.plugins.lombokPlugin)
+    alias(libs.plugins.openRewritePlugin)
 }
 
 group = "com.framework.another.boot"
@@ -75,4 +76,8 @@ publishing {
             }
         }
     }
+}
+
+rewrite {
+    activeRecipe("org.openrewrite.java.OrderImports")
 }

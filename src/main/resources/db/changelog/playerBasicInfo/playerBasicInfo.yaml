@@ -24,6 +24,7 @@ databaseChangeLog:
                   remarks: Unique code assigned to the player by Premier league API
                   constraints:
                     nullable: false
+                    unique: true
               - column:
                   name: VERSION_NUMBER
                   type: BIGINT
