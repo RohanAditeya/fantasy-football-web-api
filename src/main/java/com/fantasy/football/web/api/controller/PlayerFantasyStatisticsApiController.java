@@ -34,7 +34,10 @@ class PlayerFantasyStatisticsApiController implements LeaguePlayerFantasyStatist
 
     @Override
     public Mono<ResponseEntity<Void>> deleteFantasyStatistics(UUID recordId, UUID playerId, ServerWebExchange exchange) {
-        return null;
+        // TODO playerId can be removed from header.
+        return playerFantasyStatisticsService.deleteFantasyStatisticsRecordByRecordId(recordId)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).<Void>build()))
+                .doOnSuccess(voidType -> log.info("Deleted league player fantasy statistics record with ID {}", recordId));
     }
 
     @Override
