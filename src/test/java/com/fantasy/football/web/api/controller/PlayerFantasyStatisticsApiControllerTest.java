@@ -1,5 +1,6 @@
 package com.fantasy.football.web.api.controller;
 
+import com.fantasy.football.dto.PlayerFantasyStatisticsPatchDTO;
 import com.fantasy.football.model.PlayerFantasyStatistics;
 import com.fantasy.football.web.api.core.BaseTestExtension;
 import org.junit.jupiter.api.DisplayName;
@@ -81,6 +82,41 @@ public class PlayerFantasyStatisticsApiControllerTest extends BaseTestExtension 
     @DisplayName(value = "Error 500 when record_id header is missing")
     void fetchRequestThrows5xxErrorWhenHeaderIsOmitted() {
         webTestClient.get().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .exchange().expectStatus().is5xxServerError();
+    }
+
+    @Test
+    @DisplayName(value = "Update request updates and saves existing record successfully")
+    void updateRequestsUpdatesExistingRecordAndSavesTest() {
+        Flux<PlayerFantasyStatistics> response = webTestClient.patch().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .header("record_id", "fe4549a8-c14b-4859-a78f-0fad18a8bf3e")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerFantasyStatisticsPatchDTO().dreamTeamCount(5))
+                .exchange().expectStatus().isAccepted()
+                .returnResult(PlayerFantasyStatistics.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(updatedRecord -> {
+                    assertThat(updatedRecord.getDreamTeamCount()).isEqualTo(5);
+                }).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Update request prints log if no record is found to update")
+    void updateRequestsPrintsLogIfNoRecordFoundForUpdateTest(CapturedOutput capturedOutput) {
+        webTestClient.patch().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .header("record_id", "fe4549a8-c14b-4859-a78f-0fad18a8bf37")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerFantasyStatisticsPatchDTO().dreamTeamCount(5))
+                .exchange().expectStatus().isAccepted();
+        assertThat(capturedOutput.getAll().contains("Cannot find any player fantasy statistics record with ID fe4549a8-c14b-4859-a78f-0fad18a8bf37 for updating")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "Update request throws 500 error when record_id header is missing")
+    void updateRequestsThrows5xxErrorWhenHeaderMissingTest() {
+        webTestClient.patch().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerFantasyStatisticsPatchDTO().dreamTeamCount(5))
                 .exchange().expectStatus().is5xxServerError();
     }
 }

@@ -24,3 +24,16 @@ databaseChangeLog:
               - column:
                   name: RECORD_ID
                   value: a35fb2f4-1c40-4c96-ab02-2a7eb0afcfa4
+#       For unit test PlayerFantasyStatisticsApiControllerTest#updateRequestsUpdatesExistingRecordAndSavesTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: fe4549a8-c14b-4859-a78f-0fad18a8bf3e
+              - column:
+                  name: DREAM_TM_CT
+                  valueNumeric: 2

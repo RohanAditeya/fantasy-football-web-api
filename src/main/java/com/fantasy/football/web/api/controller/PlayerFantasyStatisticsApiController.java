@@ -49,6 +49,10 @@ class PlayerFantasyStatisticsApiController implements LeaguePlayerFantasyStatist
     @Override
     public Mono<ResponseEntity<PlayerFantasyStatistics>> updateFantasyStatistics(@Valid Mono<PlayerFantasyStatisticsPatchDTO> playerFantasyStatisticsPatchDTO, UUID recordId, UUID playerId, ServerWebExchange exchange) {
         // TODO Remove player ID from header.
-        return null;
+        // TODO Patch DTO object has transfersIn/transfersOut in Integer and entity has transfersInOut in long type. Need to correct it.
+        return playerFantasyStatisticsPatchDTO
+                .flatMap(updateRequest -> playerFantasyStatisticsService.updateFantasyStatisticsRecord(updateRequest, recordId))
+                .map(updatedRecord -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedRecord))
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.ACCEPTED).build()));
     }
 }
