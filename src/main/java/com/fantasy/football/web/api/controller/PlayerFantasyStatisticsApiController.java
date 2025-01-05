@@ -42,11 +42,13 @@ class PlayerFantasyStatisticsApiController implements LeaguePlayerFantasyStatist
 
     @Override
     public Mono<ResponseEntity<Flux<PlayerFantasyStatistics>>> fetchFantasyStatistics(UUID recordId, UUID playerId, @Valid Integer pageNumber, ServerWebExchange exchange) {
-        return null;
+        // TODO Remove page number and player ID. No longer need those headers.
+        return Mono.just(ResponseEntity.ok(playerFantasyStatisticsService.fetchFantasyStatisticsRecord(recordId)));
     }
 
     @Override
     public Mono<ResponseEntity<PlayerFantasyStatistics>> updateFantasyStatistics(@Valid Mono<PlayerFantasyStatisticsPatchDTO> playerFantasyStatisticsPatchDTO, UUID recordId, UUID playerId, ServerWebExchange exchange) {
+        // TODO Remove player ID from header.
         return null;
     }
 }

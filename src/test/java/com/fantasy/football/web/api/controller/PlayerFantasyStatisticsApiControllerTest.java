@@ -14,6 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
@@ -45,5 +47,40 @@ public class PlayerFantasyStatisticsApiControllerTest extends BaseTestExtension 
                 .header("record_id", "e97170e8-b112-40cc-918e-10465392c4c3")
                 .exchange().expectStatus().isNoContent();
         assertThat(capturedOutput.getAll().contains("Deleted league player fantasy statistics record with ID e97170e8-b112-40cc-918e-10465392c4c3")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "delete request returns 500 when record_id header is missing")
+    void deleteRequestThrows5xxErrorWhenHeaderIsOmitted() {
+        webTestClient.delete().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .exchange().expectStatus().is5xxServerError();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player statistics record request returns existing record")
+    void fetchExistingRecordIsReturnedTest() {
+        Flux<PlayerFantasyStatistics> response = webTestClient.get().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .header("record_id", "a35fb2f4-1c40-4c96-ab02-2a7eb0afcfa4")
+                .exchange().expectStatus().isOk().returnResult(PlayerFantasyStatistics.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(fetchedRecord -> {
+                    assertThat(fetchedRecord.getRecordId()).isEqualByComparingTo(UUID.fromString("a35fb2f4-1c40-4c96-ab02-2a7eb0afcfa4"));
+                }).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player statistics record request prints log if no record found")
+    void fetchNotExistingRecordPrintsLogTest(CapturedOutput capturedOutput) {
+        webTestClient.get().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .header("record_id", "a35fb2f4-1c40-4c96-ab02-2a7eb0afcfa5")
+                .exchange().expectStatus().isOk();
+        assertThat(capturedOutput.getAll().contains("Found no player fantasy statistics record with ID a35fb2f4-1c40-4c96-ab02-2a7eb0afcfa5")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "Error 500 when record_id header is missing")
+    void fetchRequestThrows5xxErrorWhenHeaderIsOmitted() {
+        webTestClient.get().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
+                .exchange().expectStatus().is5xxServerError();
     }
 }

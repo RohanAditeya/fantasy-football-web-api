@@ -14,3 +14,13 @@ databaseChangeLog:
               - column:
                   name: RECORD_ID
                   value: e97170e8-b112-40cc-918e-10465392c4c3
+#       For unit test PlayerFantasyStatisticsApiControllerTest#fetchExistingRecordIsReturnedTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: a35fb2f4-1c40-4c96-ab02-2a7eb0afcfa4
