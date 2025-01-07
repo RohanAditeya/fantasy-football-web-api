@@ -39,4 +39,20 @@ public class PlayerGameStatisticsApiControllerTest extends BaseTestExtension {
                         }
                 ).verifyComplete();
     }
+
+    @Test
+    @DisplayName(value = "delete request should delete existing record")
+    void deletePlayerFantasyStatisticsRequestDeletesExistingRecordTest(CapturedOutput capturedOutput) {
+        webTestClient.delete().uri("/api/fantasy/football/v1/league-player-game-statistics")
+                .header("record_id", "e77d38a8-8069-4137-908d-68c55f4c5a96")
+                .exchange().expectStatus().isNoContent();
+        assertThat(capturedOutput.getAll().contains("Deleted league player game statistics record with ID e77d38a8-8069-4137-908d-68c55f4c5a96")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "delete request returns 500 when record_id header is missing")
+    void deleteRequestThrows5xxErrorWhenHeaderIsOmitted() {
+        webTestClient.delete().uri("/api/fantasy/football/v1/league-player-game-statistics")
+                .exchange().expectStatus().is5xxServerError();
+    }
 }

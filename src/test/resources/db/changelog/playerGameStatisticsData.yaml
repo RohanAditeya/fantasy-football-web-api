@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      runOrder: "last"
+      id: player-game-statistics-data-for-unit-tests
+      author: rohan-aditeya
+      changes:
+#       For unit test PlayerGameStatisticsApiControllerTest#deletePlayerFantasyStatisticsRequestDeletesExistingRecordTest
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: e77d38a8-8069-4137-908d-68c55f4c5a96

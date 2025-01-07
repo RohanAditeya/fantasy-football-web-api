@@ -34,7 +34,10 @@ public class PlayerGameStatisticsApiController implements LeaguePlayerGameStatis
 
     @Override
     public Mono<ResponseEntity<Void>> deleteGameStatistics(UUID recordId, UUID playerId, ServerWebExchange exchange) {
-        return null;
+        // TODO remove player_id header
+        return playerGameStatisticsService.deleteGameStatisticsRecordById(recordId)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).<Void>build()))
+                .doOnSuccess(voidType -> log.info("Deleted league player game statistics record with ID {}", recordId));
     }
 
     @Override

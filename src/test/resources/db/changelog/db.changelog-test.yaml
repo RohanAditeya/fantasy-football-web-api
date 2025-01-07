@@ -7,3 +7,5 @@ databaseChangeLog:
       file: classpath:/db/changelog/leaguePlayerData.yaml
   - include:
       file: classpath:/db/changelog/playerFantasyStatisticsData.yaml
+  - include:
+      file: classpath:/db/changelog/playerGameStatisticsData.yaml
