@@ -79,7 +79,7 @@ public class PlayerFantasyStatisticsApiControllerTest extends BaseTestExtension 
     }
 
     @Test
-    @DisplayName(value = "Error 500 when record_id header is missing")
+    @DisplayName(value = "Error 500 when record_id header is missing when making fetch fantasy statistics request")
     void fetchRequestThrows5xxErrorWhenHeaderIsOmitted() {
         webTestClient.get().uri("/api/fantasy/football/v1/league-player-fantasy-statistics")
                 .exchange().expectStatus().is5xxServerError();

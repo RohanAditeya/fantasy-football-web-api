@@ -35,6 +35,7 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
     @Override
     public Mono<ResponseEntity<Void>> deleteLeaguePlayer(UUID recordId, String playerCode, ServerWebExchange exchange) {
         // TODO Change player code header to accept long
+        // TODO return 400 when no headers are provided
         return playerBasicInformationService.deleteLeaguePlayerBasicInfoRecord(recordId, playerCode != null ? Long.valueOf(playerCode) : null).thenReturn(ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
 
@@ -43,6 +44,8 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
         // TODO Update model to accept page size parameter
         // TODO Change player code header to accept long
         // TODO Change teamId header to accept UUID
+        // TODO return 400 when no headers are provided
+        // TODO return 404 when no record is found
         return Mono.just(ResponseEntity.ok(playerBasicInformationService.fetchLeaguePlayer(recordId, playerCode != null ? Long.valueOf(playerCode) : null, teamId, pageNumber)));
     }
 
@@ -50,6 +53,8 @@ class LeaguePlayerApiController implements LeaguePlayerApi {
     public Mono<ResponseEntity<PlayerBasicInformation>> updateLeaguePlayer(@Valid Mono<PlayerBasicInformationPatchDTO> playerBasicInformationPatchDTO, UUID recordId, String playerCode, ServerWebExchange exchange) {
         // TODO Do we need to change Player Basic Information status field to char instead of string?
         // TODO First name and Second name is immutable in entity and patch request accepts values for it. Either entity must be made mutable or path request entity must stop accepting first and second name.
+        // TODO return 404 when no record is found to update
+        // TODO return 400 when no headers are provided
         return playerBasicInformationPatchDTO
                 .flatMap(patchRequest -> playerBasicInformationService.updatePlayerBasicInformation(patchRequest, recordId, playerCode != null? Long.valueOf(playerCode) : null))
                 .map(updatedRecord -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedRecord))

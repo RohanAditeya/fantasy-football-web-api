@@ -5,11 +5,14 @@ import com.fantasy.football.web.api.repository.PlayerGameStatisticsRepository;
 import com.fantasy.football.web.api.service.PlayerGameStatisticsService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 class PlayerGameStatisticsServiceImpl implements PlayerGameStatisticsService {
@@ -25,5 +28,11 @@ class PlayerGameStatisticsServiceImpl implements PlayerGameStatisticsService {
     @Override
     public Mono<Void> deleteGameStatisticsRecordById(UUID recordId) {
         return playerGameStatisticsRepository.deleteById(recordId);
+    }
+
+    @Override
+    public Flux<PlayerGameStatistics> fetchFantasyStatisticsRecord(UUID recordId) {
+        return playerGameStatisticsRepository.findById(recordId).doOnNext(fetchedRecord -> log.info("Fetched player game statistics record with ID {}", recordId))
+                .flux().switchIfEmpty(Flux.<PlayerGameStatistics>empty().doOnComplete(() -> log.info("Found no player game statistics record with ID {}", recordId)));
     }
 }

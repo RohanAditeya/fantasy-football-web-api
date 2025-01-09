@@ -32,18 +32,23 @@ class LeagueTeamApiController implements LeagueTeamApi {
 
     @Override
     public Mono<ResponseEntity<Void>> deleteLeagueTeam(String teamName, Integer teamCode, UUID recordId, ServerWebExchange exchange) {
+        // TODO Return 400 when no headers are provided
         log.info("Received request to delete league team record");
         return leagueTeamApiService.deleteLeagueTeamRecord(teamName, teamCode, recordId).then(Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).build()));
     }
 
     @Override
     public Mono<ResponseEntity<Flux<LeagueTeam>>> fetchLeagueTeam(String teamName, Integer teamCode, UUID recordId, @Valid Integer pageNumber, @Valid Integer pageSize, ServerWebExchange exchange) {
+        // TODO return 404 when no record is found
+        // TODO return 400 when no headers are provided
         log.info("Received request to fetch league team record");
         return Mono.just(ResponseEntity.ok(leagueTeamApiService.fetchLeagueTeamRecords(teamName, teamCode, recordId, pageNumber, pageSize)));
     }
 
     @Override
     public Mono<ResponseEntity<LeagueTeam>> updateLeagueTeam(@Valid Mono<LeagueTeamPatchDto> leagueTeamPatchDto, String teamName, Integer teamCode, UUID recordId, ServerWebExchange exchange) {
+        // TODO return 400 when no headers are provided.
+        // TODO return 404 when record to update is not found.
         log.info("Received request to update league team record");
         return leagueTeamApiService.updateLeagueTeamRecord(teamName, teamCode, recordId, leagueTeamPatchDto)
                 .map(updatedLeagueTeam -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedLeagueTeam));

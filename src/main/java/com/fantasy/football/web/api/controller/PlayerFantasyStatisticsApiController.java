@@ -35,6 +35,7 @@ class PlayerFantasyStatisticsApiController implements LeaguePlayerFantasyStatist
     @Override
     public Mono<ResponseEntity<Void>> deleteFantasyStatistics(UUID recordId, UUID playerId, ServerWebExchange exchange) {
         // TODO playerId can be removed from header.
+        // TODO return 400 when record_id header is missing
         return playerFantasyStatisticsService.deleteFantasyStatisticsRecordByRecordId(recordId)
                 .then(Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).<Void>build()))
                 .doOnSuccess(voidType -> log.info("Deleted league player fantasy statistics record with ID {}", recordId));
@@ -43,6 +44,8 @@ class PlayerFantasyStatisticsApiController implements LeaguePlayerFantasyStatist
     @Override
     public Mono<ResponseEntity<Flux<PlayerFantasyStatistics>>> fetchFantasyStatistics(UUID recordId, UUID playerId, @Valid Integer pageNumber, ServerWebExchange exchange) {
         // TODO Remove page number and player ID. No longer need those headers.
+        // TODO return 404 when record is not found
+        // TODO return 400 when record_id header is missing
         return Mono.just(ResponseEntity.ok(playerFantasyStatisticsService.fetchFantasyStatisticsRecord(recordId)));
     }
 
@@ -50,6 +53,7 @@ class PlayerFantasyStatisticsApiController implements LeaguePlayerFantasyStatist
     public Mono<ResponseEntity<PlayerFantasyStatistics>> updateFantasyStatistics(@Valid Mono<PlayerFantasyStatisticsPatchDTO> playerFantasyStatisticsPatchDTO, UUID recordId, UUID playerId, ServerWebExchange exchange) {
         // TODO Remove player ID from header.
         // TODO Patch DTO object has transfersIn/transfersOut in Integer and entity has transfersInOut in long type. Need to correct it.
+        // TODO 404 when record to update is not found
         return playerFantasyStatisticsPatchDTO
                 .flatMap(updateRequest -> playerFantasyStatisticsService.updateFantasyStatisticsRecord(updateRequest, recordId))
                 .map(updatedRecord -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedRecord))

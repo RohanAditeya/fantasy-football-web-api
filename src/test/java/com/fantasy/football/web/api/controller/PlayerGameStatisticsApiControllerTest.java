@@ -14,6 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
@@ -53,6 +55,34 @@ public class PlayerGameStatisticsApiControllerTest extends BaseTestExtension {
     @DisplayName(value = "delete request returns 500 when record_id header is missing")
     void deleteRequestThrows5xxErrorWhenHeaderIsOmitted() {
         webTestClient.delete().uri("/api/fantasy/football/v1/league-player-game-statistics")
+                .exchange().expectStatus().is5xxServerError();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch game statistics record request returns existing record")
+    void fetchExistingRecordIsReturnedTest() {
+        Flux<PlayerGameStatistics> response = webTestClient.get().uri("/api/fantasy/football/v1/league-player-game-statistics")
+                .header("record_id", "ef6a7ab6-6b98-44ba-b648-a2cc38806126")
+                .exchange().expectStatus().isOk().returnResult(PlayerGameStatistics.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(fetchedRecord -> {
+                    assertThat(fetchedRecord.getRecordId()).isEqualByComparingTo(UUID.fromString("ef6a7ab6-6b98-44ba-b648-a2cc38806126"));
+                }).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "Fetch player statistics record request prints log if no record found")
+    void fetchNotExistingRecordPrintsLogTest(CapturedOutput capturedOutput) {
+        webTestClient.get().uri("/api/fantasy/football/v1/league-player-game-statistics")
+                .header("record_id", "ef6a7ab6-6b98-44ba-b648-a2cc38806127")
+                .exchange().expectStatus().isOk();
+        assertThat(capturedOutput.getAll().contains("Found no player game statistics record with ID ef6a7ab6-6b98-44ba-b648-a2cc38806127")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "Error 500 when record_id header is missing when making fetch game statistics request")
+    void fetchRequestThrows5xxErrorWhenHeaderIsOmitted() {
+        webTestClient.get().uri("/api/fantasy/football/v1/league-player-game-statistics")
                 .exchange().expectStatus().is5xxServerError();
     }
 }
