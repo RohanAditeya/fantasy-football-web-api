@@ -51,6 +51,11 @@ public class PlayerGameStatisticsApiController implements LeaguePlayerGameStatis
 
     @Override
     public Mono<ResponseEntity<PlayerGameStatistics>> updateGameStatistics(@Valid Mono<PlayerGameStatisticsPatchDTO> playerGameStatisticsPatchDTO, UUID recordId, UUID playerId, ServerWebExchange exchange) {
-        return null;
+        // TODO Remove player ID from header.
+        // TODO 404 when record to update is not found
+        return playerGameStatisticsPatchDTO
+                .flatMap(updateRequest -> playerGameStatisticsService.updateGameStatisticsRecord(updateRequest, recordId))
+                .map(updateRecord -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updateRecord))
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.ACCEPTED).build()));
     }
 }

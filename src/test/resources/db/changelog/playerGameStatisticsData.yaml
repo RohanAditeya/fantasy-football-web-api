@@ -24,3 +24,13 @@ databaseChangeLog:
               - column:
                   name: RECORD_ID
                   value: ef6a7ab6-6b98-44ba-b648-a2cc38806126
+#       For unit test PlayerGameStatisticsApiControllerTest#fetchExistingRecordIsReturnedTest
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: f63566f9-f54e-4396-9674-e29dfbd6c374
