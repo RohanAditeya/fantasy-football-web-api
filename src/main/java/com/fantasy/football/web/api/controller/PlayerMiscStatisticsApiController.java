@@ -51,6 +51,11 @@ public class PlayerMiscStatisticsApiController implements LeaguePlayerMiscStatis
 
     @Override
     public Mono<ResponseEntity<PlayerMiscellaneousInformation>> updateMiscellaneousStatistics(@Valid Mono<PlayerMiscellaneousInformationPatchDTO> playerMiscellaneousInformationPatchDTO, UUID recordId, UUID playerId, ServerWebExchange exchange) {
-        return null;
+        // TODO Remove player ID from header.
+        // TODO 404 when record to update is not found
+        return playerMiscellaneousInformationPatchDTO
+                .flatMap(updateRequest -> miscellaneousInformationService.updateMiscStatisticsInformation(updateRequest, recordId))
+                .map(updatedRecord -> ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedRecord))
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.ACCEPTED).build()));
     }
 }

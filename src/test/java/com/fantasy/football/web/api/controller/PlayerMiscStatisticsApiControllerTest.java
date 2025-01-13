@@ -1,5 +1,8 @@
 package com.fantasy.football.web.api.controller;
 
+import com.fantasy.football.dto.PlayerFantasyStatisticsPatchDTO;
+import com.fantasy.football.dto.PlayerGameStatisticsPatchDTO;
+import com.fantasy.football.dto.PlayerMiscellaneousInformationPatchDTO;
 import com.fantasy.football.model.PlayerMiscellaneousInformation;
 import com.fantasy.football.web.api.core.BaseTestExtension;
 import org.junit.jupiter.api.DisplayName;
@@ -81,6 +84,41 @@ public class PlayerMiscStatisticsApiControllerTest extends BaseTestExtension {
     @DisplayName(value = "Fetch misc request without header returns 500")
     void fetchMiscStatisticsRequestWithoutHeaderReturnsErrorTest() {
         webTestClient.get().uri("/api/fantasy/football/v1/league-player-misc-statistics")
+                .exchange().expectStatus().is5xxServerError();
+    }
+
+    @Test
+    @DisplayName(value = "update misc record request updates and save existing misc statistics record")
+    void updateRequestForExistingRecordUpdatesTheRecordSuccessfullyTest() {
+        Flux<PlayerMiscellaneousInformation> response = webTestClient.patch().uri("/api/fantasy/football/v1/league-player-misc-statistics")
+                .header("record_id", "e037c0db-e790-43e2-9ff5-8363d02d207b")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerMiscellaneousInformationPatchDTO().nowCostRank(3))
+                .exchange().expectStatus().isAccepted()
+                .returnResult(PlayerMiscellaneousInformation.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(updatedRecord -> {
+                    assertThat(updatedRecord.getNowCostRank()).isEqualTo(3);
+                }).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "update misc request prints log if no record is found")
+    void updateRequestPrintsLogIfNoRecordIsUpdated(CapturedOutput capturedOutput) {
+        webTestClient.patch().uri("/api/fantasy/football/v1/league-player-misc-statistics")
+                .header("record_id", "e037c0db-e790-43e2-9ff5-8363d02d207c")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerMiscellaneousInformationPatchDTO().nowCostRank(5))
+                .exchange().expectStatus().isAccepted();
+        assertThat(capturedOutput.getAll().contains("Cannot find any player misc statistics record with ID e037c0db-e790-43e2-9ff5-8363d02d207c for updating")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "Update misc request throws 500 error when record_id header is missing")
+    void updateRequestsThrows5xxErrorWhenHeaderMissingTest() {
+        webTestClient.patch().uri("/api/fantasy/football/v1/league-player-misc-statistics")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new PlayerMiscellaneousInformationPatchDTO().nowCostRank(1))
                 .exchange().expectStatus().is5xxServerError();
     }
 }
