@@ -695,3 +695,119 @@ databaseChangeLog:
               - column:
                   name: SECD_NAME
                   value: Rice
+#       For unit test PlayerGameweekScoresApiControllerTest#createGameweekScoreSavesRecordsSuccessfully
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 40451ed8-f462-4971-8262-80af1da49368
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: c4b1c26b-7697-4adc-851b-867a498723ec
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: a3ba0b9e-cc8f-4c66-a443-e78259da6024
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 14000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: 40451ed8-f462-4971-8262-80af1da49368
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: c4b1c26b-7697-4adc-851b-867a498723ec
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: a3ba0b9e-cc8f-4c66-a443-e78259da6024
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 8b7ee960-6636-4e9e-91ff-81f986d58f4a
+              - column:
+                  name: FRST_NAME
+                  value: Thomas
+              - column:
+                  name: SECD_NAME
+                  value: Partey
+#       For unit test PlayerGameweekScoresApiControllerTest#gameweekStatRecordsAreNotSavedUponFailureToSaveBreakupRecords
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: e12ec397-d04a-45f8-8ccf-987ae86f9ca1
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 7b19c9a9-d883-4e35-a791-934747ecfe07
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 39f6f70f-5d46-4fc4-9886-9313b41c2a08
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 15000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: e12ec397-d04a-45f8-8ccf-987ae86f9ca1
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 7b19c9a9-d883-4e35-a791-934747ecfe07
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: 39f6f70f-5d46-4fc4-9886-9313b41c2a08
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: c6c4a549-2d9d-4070-a166-c9556765e831
+              - column:
+                  name: FRST_NAME
+                  value: Jurien
+              - column:
+                  name: SECD_NAME
+                  value: Timber

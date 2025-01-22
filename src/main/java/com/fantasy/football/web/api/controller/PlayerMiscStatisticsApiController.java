@@ -20,7 +20,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public class PlayerMiscStatisticsApiController implements LeaguePlayerMiscStatisticsApi {
+class PlayerMiscStatisticsApiController implements LeaguePlayerMiscStatisticsApi {
 
     private final PlayerMiscellaneousInformationService miscellaneousInformationService;
 
