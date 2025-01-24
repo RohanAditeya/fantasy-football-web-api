@@ -31,7 +31,8 @@ class PlayerGameweekScoresApiController implements LeaguePlayerGameweekScoresApi
 
     @Override
     public Mono<ResponseEntity<Void>> deleteGameWeekScores(UUID recordId, UUID playerId, ServerWebExchange exchange) {
-        return null;
+        // TODO return proper response when both headers are missing
+        return playerGameweekScoresService.deleteGameweekRecordsForPlayer(recordId, playerId).then(Mono.just(ResponseEntity.noContent().build()));
     }
 
     @Override

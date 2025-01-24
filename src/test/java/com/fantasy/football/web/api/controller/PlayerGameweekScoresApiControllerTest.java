@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.http.MediaType;
@@ -34,7 +35,7 @@ public class PlayerGameweekScoresApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "create gameweek score request saves both record successfully")
-    void createGameweekScoreSavesRecordsSuccessfully() {
+    void createGameweekScoreSavesRecordsSuccessfullyTest() {
         PlayerGameWeekBreakup gameWeekBreakup = new PlayerGameWeekBreakup(null, null, "Goals", 0, 0);
         PlayerGameWeekStatistics gameWeekStatistics = new PlayerGameWeekStatistics.Builder()
                 .playerId(UUID.fromString("8b7ee960-6636-4e9e-91ff-81f986d58f4a"))
@@ -56,7 +57,7 @@ public class PlayerGameweekScoresApiControllerTest extends BaseTestExtension {
 
     @Test
     @DisplayName(value = "gameweek stat record is not saved on failure to save breakup records")
-    void gameweekStatRecordsAreNotSavedUponFailureToSaveBreakupRecords() {
+    void gameweekStatRecordsAreNotSavedUponFailureToSaveBreakupRecordsTest() {
         // Intentionally setting the identifier as null
         PlayerGameWeekBreakup gameWeekBreakup = new PlayerGameWeekBreakup(null, null, null, 0, 0);
         PlayerGameWeekStatistics gameWeekStatistics = new PlayerGameWeekStatistics.Builder()
@@ -71,5 +72,33 @@ public class PlayerGameweekScoresApiControllerTest extends BaseTestExtension {
                 .matching(query(where("PLYR_ID").is(gameWeekStatistics.getPlayerId()))).one();
         // Select query must not return any record and Mono should not emit any events and complete.
         StepVerifier.create(savedRecordMono).verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "delete request for gameweek record deletes both gameweek stats and breakup records")
+    void deleteRequestsDeletesAllStatsAndBreakUpRecordsTest(CapturedOutput capturedOutput) {
+        webTestClient.delete().uri("/api/fantasy/football/v1/league-player-gameweek-scores")
+                .header("record_id", "b5cca747-f799-49a2-a7c6-2da03eef7f36")
+                .exchange().expectStatus().isNoContent();
+        assertThat(capturedOutput.getAll().contains("Deleted 2 number of game week breakup records")).isTrue();
+        assertThat(capturedOutput.getAll().contains("Successfully deleted all gameweek stats and breakup records for recordId b5cca747-f799-49a2-a7c6-2da03eef7f36 and playerId null")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "delete request for gameweek record deletes both gameweek stats and breakup records with player_id in header")
+    void deleteRequestsDeletesAllStatsAndBreakUpRecordsWithPlayerIdTest(CapturedOutput capturedOutput) {
+        webTestClient.delete().uri("/api/fantasy/football/v1/league-player-gameweek-scores")
+                .header("player_id", "70136047-d5f6-443d-89b0-b84fc1d0c66d")
+                .exchange().expectStatus().isNoContent();
+        assertThat(capturedOutput.getAll().contains("Deleted 2 number of game week breakup records")).isTrue();
+        assertThat(capturedOutput.getAll().contains("Successfully deleted all gameweek stats and breakup records for recordId null and playerId 70136047-d5f6-443d-89b0-b84fc1d0c66d")).isTrue();
+    }
+
+    @Test
+    @DisplayName(value = "delete request does not throw error when no player gameweek or breakup records are deleted")
+    void deleteRequestsReturnsSuccessWhenNoRecordIsDeletedTest() {
+        webTestClient.delete().uri("/api/fantasy/football/v1/league-player-gameweek-scores")
+                .header("player_id", "70136047-d5f6-443d-89b0-b84fc1d0c661")
+                .exchange().expectStatus().isNoContent();
     }
 }

@@ -811,3 +811,119 @@ databaseChangeLog:
               - column:
                   name: SECD_NAME
                   value: Timber
+#       For unit test PlayerGameweekScoresApiControllerTest#deleteRequestsDeletesAllStatsAndBreakUpRecordsTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: b4c28a6f-c891-48f7-9689-2bed2d1c77d9
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 68c4eaa7-1ab8-4e9b-9e7e-ebe389bbee11
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 8c3fdad0-0db1-4464-b0d8-66ad86cf8791
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 16000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: b4c28a6f-c891-48f7-9689-2bed2d1c77d9
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 68c4eaa7-1ab8-4e9b-9e7e-ebe389bbee11
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: 8c3fdad0-0db1-4464-b0d8-66ad86cf8791
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 75623b3d-2080-438c-9357-a5549ef5dbfd
+              - column:
+                  name: FRST_NAME
+                  value: Oleksandr
+              - column:
+                  name: SECD_NAME
+                  value: Zinchenko
+#       For unit test PlayerGameweekScoresApiControllerTest#deleteRequestsDeletesAllStatsAndBreakUpRecordsWithPlayerIdTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 52df70c8-8edd-4a96-b778-97fb96dfb015
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 23c51379-dc9a-42b1-a9e9-83f7fb13dec1
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: a90d6e9a-7b96-425e-9bd2-39eb35342adb
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 17000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: 52df70c8-8edd-4a96-b778-97fb96dfb015
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 23c51379-dc9a-42b1-a9e9-83f7fb13dec1
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: a90d6e9a-7b96-425e-9bd2-39eb35342adb
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 70136047-d5f6-443d-89b0-b84fc1d0c66d
+              - column:
+                  name: FRST_NAME
+                  value: Jakub
+              - column:
+                  name: SECD_NAME
+                  value: Kiwior

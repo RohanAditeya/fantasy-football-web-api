@@ -1,7 +1,7 @@
 [versions]
 anotherBootPluginVersion = "2.0.4"
 gradleReleasePluginVersion = "3.0.2"
-fantasyFootballModelVersion = "2.0.2"
+fantasyFootballModelVersion = "2.0.3"
 lombokPluginVersion = "8.11"
 reactorBlockHoundVersion = "1.0.10.RELEASE"
 openRewritePluginVersion = "6.29.2"

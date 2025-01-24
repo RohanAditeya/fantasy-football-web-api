@@ -1,0 +1,116 @@
+databaseChangeLog:
+  - changeSet:
+      runOrder: "last"
+      id: player-game-statistics-data-for-unit-tests
+      author: rohan-aditeya
+      changes:
+#       For unit test PlayerGameweekScoresApiControllerTest#deleteRequestsDeletesAllStatsAndBreakUpRecordsTest
+        - insert:
+            tableName: PLYR_GAME_WK_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: b5cca747-f799-49a2-a7c6-2da03eef7f36
+              - column:
+                  name: PLYR_ID
+                  value: 75623b3d-2080-438c-9357-a5549ef5dbfd
+        - insert:
+            tableName: PLYR_GAME_WK_BK
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 0c678934-f816-4c21-84f7-8e1dcd5131ba
+              - column:
+                  name: GAME_WK_PK
+                  value: b5cca747-f799-49a2-a7c6-2da03eef7f36
+              - column:
+                  name: ID_VALUE
+                  valueNumeric: 0
+              - column:
+                  name: POINTS
+                  valueNumeric: 0
+              - column:
+                  name: IDENTIFIER
+                  value: minutes
+        - insert:
+            tableName: PLYR_GAME_WK_BK
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: bd0cbcbf-ee19-4f99-863d-c7ebb1f55a3f
+              - column:
+                  name: GAME_WK_PK
+                  value: b5cca747-f799-49a2-a7c6-2da03eef7f36
+              - column:
+                  name: ID_VALUE
+                  valueNumeric: 0
+              - column:
+                  name: POINTS
+                  valueNumeric: 0
+              - column:
+                  name: IDENTIFIER
+                  value: minutes
+#       For unit test PlayerGameweekScoresApiControllerTest#deleteRequestsDeletesAllStatsAndBreakUpRecordsWithPlayerIdTest
+        - insert:
+            tableName: PLYR_GAME_WK_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 8db53286-de49-42da-a2fe-3a4128101a8a
+              - column:
+                  name: PLYR_ID
+                  value: 70136047-d5f6-443d-89b0-b84fc1d0c66d
+        - insert:
+            tableName: PLYR_GAME_WK_BK
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 15bff544-0665-4bd1-a49d-0a5c69daff52
+              - column:
+                  name: GAME_WK_PK
+                  value: 8db53286-de49-42da-a2fe-3a4128101a8a
+              - column:
+                  name: ID_VALUE
+                  valueNumeric: 0
+              - column:
+                  name: POINTS
+                  valueNumeric: 0
+              - column:
+                  name: IDENTIFIER
+                  value: minutes
+        - insert:
+            tableName: PLYR_GAME_WK_BK
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: a1ae38de-645f-435a-9d20-0b9126c3cc52
+              - column:
+                  name: GAME_WK_PK
+                  value: 8db53286-de49-42da-a2fe-3a4128101a8a
+              - column:
+                  name: ID_VALUE
+                  valueNumeric: 0
+              - column:
+                  name: POINTS
+                  valueNumeric: 0
+              - column:
+                  name: IDENTIFIER
+                  value: minutes

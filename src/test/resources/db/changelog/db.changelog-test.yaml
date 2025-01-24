@@ -11,3 +11,5 @@ databaseChangeLog:
       file: classpath:/db/changelog/playerGameStatisticsData.yaml
   - include:
       file: classpath:/db/changelog/playerMiscStatisticsData.yaml
+  - include:
+      file: classpath:/db/changelog/playerGameweekScoresData.yaml

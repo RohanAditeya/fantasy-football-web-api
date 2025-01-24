@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -43,6 +44,21 @@ class PlayerGameweekScoresServiceImpl implements PlayerGameweekScoresService {
                         }
                 )
                 .doOnNext(createRequestBody -> log.info("Saved all game week breakup records for player ID {} and gameweek statistics record ID {}", createRequestBody.getGameWeekStatistics().getPlayerId(), createRequestBody.getGameWeekStatistics().getRecordId()));
+    }
+
+    @Override
+    public Mono<Void> deleteGameweekRecordsForPlayer(UUID recordId, UUID playerId) {
+        Mono<PlayerGameWeekStatistics> recordToBeDeletedMono;
+        if (recordId != null)
+            recordToBeDeletedMono = gameweekStatisticsRepository.findById(recordId);
+        else
+            recordToBeDeletedMono = gameweekStatisticsRepository.findByPlayerId(playerId);
+        return recordToBeDeletedMono.zipWhen(
+                        recordToBeDeleted -> gameweekBreakupRepository.deleteByGameWeek(recordToBeDeleted.getRecordId()).doOnNext(noOfRecordsDeleted -> log.info("Deleted {} number of game week breakup records", noOfRecordsDeleted))
+                        , (recordToBeDeleted, noOfRreakUpRecordsDeleted) -> recordToBeDeleted
+                )
+                .flatMap(gameweekStatisticsRepository::delete)
+                .doOnSuccess(voidType -> log.info("Successfully deleted all gameweek stats and breakup records for recordId {} and playerId {}", recordId, playerId));
     }
 
     private GameWeekScoreDTO setRecordIds (GameWeekScoreDTO gameWeekScoreDTO) {
