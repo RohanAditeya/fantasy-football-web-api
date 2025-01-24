@@ -114,3 +114,58 @@ databaseChangeLog:
               - column:
                   name: IDENTIFIER
                   value: minutes
+#       For unit test PlayerGameweekScoresApiControllerTest#fetchResponseReturnsGameweekRecordsTest
+        - insert:
+            tableName: PLYR_GAME_WK_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 775fbc00-80c7-4ae4-990b-2441b081720d
+              - column:
+                  name: PLYR_ID
+                  value: 0adb3479-5e0f-476f-bef4-19cb3ca903df
+        - insert:
+            tableName: PLYR_GAME_WK_BK
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 1b5b8718-cbfa-49b0-b89b-267cc90a1265
+              - column:
+                  name: GAME_WK_PK
+                  value: 775fbc00-80c7-4ae4-990b-2441b081720d
+              - column:
+                  name: ID_VALUE
+                  valueNumeric: 0
+              - column:
+                  name: POINTS
+                  valueNumeric: 0
+              - column:
+                  name: IDENTIFIER
+                  value: minutes
+        - insert:
+            tableName: PLYR_GAME_WK_BK
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 75ca059d-4b24-4ee3-ae93-23172cdaa6a7
+              - column:
+                  name: GAME_WK_PK
+                  value: 775fbc00-80c7-4ae4-990b-2441b081720d
+              - column:
+                  name: ID_VALUE
+                  valueNumeric: 0
+              - column:
+                  name: POINTS
+                  valueNumeric: 0
+              - column:
+                  name: IDENTIFIER
+                  value: minutes

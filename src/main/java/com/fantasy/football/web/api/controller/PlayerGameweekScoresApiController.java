@@ -32,11 +32,13 @@ class PlayerGameweekScoresApiController implements LeaguePlayerGameweekScoresApi
     @Override
     public Mono<ResponseEntity<Void>> deleteGameWeekScores(UUID recordId, UUID playerId, ServerWebExchange exchange) {
         // TODO return proper response when both headers are missing
+        // TODO return 404 when record when not there to delete.
         return playerGameweekScoresService.deleteGameweekRecordsForPlayer(recordId, playerId).then(Mono.just(ResponseEntity.noContent().build()));
     }
 
     @Override
     public Mono<ResponseEntity<Flux<GameWeekScoreDTO>>> fetchGameWeekScores(UUID recordId, UUID playerId, @Valid Integer gameWeek, @Valid Integer pageNumber, ServerWebExchange exchange) {
-        return null;
+        // TODO return 404 when record is not found
+        return Mono.just(ResponseEntity.ok(playerGameweekScoresService.fetchPlayerGameweekScores(recordId, playerId, gameWeek, pageNumber)));
     }
 }

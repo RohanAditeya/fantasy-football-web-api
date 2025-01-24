@@ -101,4 +101,22 @@ public class PlayerGameweekScoresApiControllerTest extends BaseTestExtension {
                 .header("player_id", "70136047-d5f6-443d-89b0-b84fc1d0c661")
                 .exchange().expectStatus().isNoContent();
     }
+
+    @Test
+    @DisplayName(value = "fetch request returns gameweek records")
+    void fetchResponseReturnsGameweekRecordsTest() {
+        Flux<GameWeekScoreDTO> response = webTestClient.get().uri("/api/fantasy/football/v1/league-player-gameweek-scores")
+                .header("record_id", "775fbc00-80c7-4ae4-990b-2441b081720d")
+                .exchange().expectStatus().isOk()
+                .returnResult(GameWeekScoreDTO.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(
+                    fetchedRecord -> {
+                        assertThat(fetchedRecord.getGameWeekStatistics().getRecordId()).isEqualTo(UUID.fromString("775fbc00-80c7-4ae4-990b-2441b081720d"));
+                        assertThat(fetchedRecord.getGameWeekBreakUp().stream().anyMatch(breakupRecords -> breakupRecords.getRecordId().equals(UUID.fromString("1b5b8718-cbfa-49b0-b89b-267cc90a1265")))).isTrue();
+                        assertThat(fetchedRecord.getGameWeekBreakUp().stream().anyMatch(breakupRecords -> breakupRecords.getRecordId().equals(UUID.fromString("75ca059d-4b24-4ee3-ae93-23172cdaa6a7")))).isTrue();
+                    }
+                )
+                .verifyComplete();
+    }
 }

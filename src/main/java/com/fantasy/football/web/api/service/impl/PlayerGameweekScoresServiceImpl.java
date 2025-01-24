@@ -3,6 +3,7 @@ package com.fantasy.football.web.api.service.impl;
 import com.fantasy.football.dto.GameWeekScoreDTO;
 import com.fantasy.football.model.PlayerGameWeekBreakup;
 import com.fantasy.football.model.PlayerGameWeekStatistics;
+import com.fantasy.football.web.api.exception.BadInputException;
 import com.fantasy.football.web.api.repository.PlayerGameweekBreakupRepository;
 import com.fantasy.football.web.api.repository.PlayerGameweekStatisticsRepository;
 import com.fantasy.football.web.api.service.PlayerGameweekScoresService;
@@ -10,7 +11,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ class PlayerGameweekScoresServiceImpl implements PlayerGameweekScoresService {
 
     private final PlayerGameweekStatisticsRepository gameweekStatisticsRepository;
     private final PlayerGameweekBreakupRepository gameweekBreakupRepository;
+    public static final int DEFAULT_PAGE_SIZE = 5;
 
     @Override
     public Mono<GameWeekScoreDTO> createGameweekScoreRecord(Mono<GameWeekScoreDTO> gameWeekScoreDTOMono) {
@@ -48,17 +50,54 @@ class PlayerGameweekScoresServiceImpl implements PlayerGameweekScoresService {
 
     @Override
     public Mono<Void> deleteGameweekRecordsForPlayer(UUID recordId, UUID playerId) {
-        Mono<PlayerGameWeekStatistics> recordToBeDeletedMono;
+        Flux<PlayerGameWeekStatistics> recordToBeDeletedFlux;
         if (recordId != null)
-            recordToBeDeletedMono = gameweekStatisticsRepository.findById(recordId);
+            recordToBeDeletedFlux = gameweekStatisticsRepository.findById(recordId).flux();
         else
-            recordToBeDeletedMono = gameweekStatisticsRepository.findByPlayerId(playerId);
-        return recordToBeDeletedMono.zipWhen(
-                        recordToBeDeleted -> gameweekBreakupRepository.deleteByGameWeek(recordToBeDeleted.getRecordId()).doOnNext(noOfRecordsDeleted -> log.info("Deleted {} number of game week breakup records", noOfRecordsDeleted))
-                        , (recordToBeDeleted, noOfRreakUpRecordsDeleted) -> recordToBeDeleted
+            recordToBeDeletedFlux = gameweekStatisticsRepository.findByPlayerId(playerId);
+        return recordToBeDeletedFlux
+                .flatMap(
+                        recordToBeDeleted ->
+                                gameweekBreakupRepository.deleteByGameWeek(recordToBeDeleted.getRecordId())
+                                        .doOnNext(noOfRecordsDeleted -> log.info("Deleted {} number of game week breakup records", noOfRecordsDeleted))
+                                        .thenReturn(recordToBeDeleted)
+                                        .flux()
                 )
                 .flatMap(gameweekStatisticsRepository::delete)
-                .doOnSuccess(voidType -> log.info("Successfully deleted all gameweek stats and breakup records for recordId {} and playerId {}", recordId, playerId));
+                .doOnComplete(() -> log.info("Successfully deleted all gameweek stats and breakup records for recordId {} and playerId {}", recordId, playerId))
+                .then();
+    }
+
+    @Override
+    public Flux<GameWeekScoreDTO> fetchPlayerGameweekScores(UUID gameweekStatsRecordId, UUID playerId, Integer gameweek, Integer pageNumber) {
+        Flux<GameWeekScoreDTO> gameWeekScoreDTOFlux;
+        if (gameweekStatsRecordId != null)
+            gameWeekScoreDTOFlux = gameweekStatisticsRepository.findById(gameweekStatsRecordId)
+                    .zipWhen(
+                            fetchedGameweekStatsRecord -> gameweekBreakupRepository.findByGameWeek(fetchedGameweekStatsRecord.getRecordId()).collectList(),
+                            (statsRecords, breakupRecords) -> new GameWeekScoreDTO().gameWeekStatistics(statsRecords).gameWeekBreakUp(breakupRecords)
+                    )
+                    .flux();
+        else if (playerId != null) {
+            Flux<PlayerGameWeekStatistics> gameWeekStatisticsFlux;
+            if (gameweek != null)
+                gameWeekStatisticsFlux = gameweekStatisticsRepository.findByPlayerIdAndGameWeek(playerId, gameweek);
+            else
+                gameWeekStatisticsFlux = gameweekStatisticsRepository.findByPlayerId(playerId);
+            gameWeekScoreDTOFlux = gameWeekStatisticsFlux
+                    .skip((Optional.ofNullable(pageNumber).orElse(1) - 1L) * DEFAULT_PAGE_SIZE)
+                    .take(DEFAULT_PAGE_SIZE)
+                    .flatMap(
+                            statsRecord -> gameweekBreakupRepository
+                                    .findByGameWeek(statsRecord.getRecordId())
+                                    .collectList()
+                                    .map(breakupRecordsList -> new GameWeekScoreDTO().gameWeekBreakUp(breakupRecordsList).gameWeekStatistics(statsRecord))
+                                    .flux()
+                    );
+        } else
+            throw new BadInputException("Request must provide either record_id or player_id header", 400);
+        return gameWeekScoreDTOFlux.doFirst(() -> log.info("Fetched Gameweek records successfully for ID {}, playerID {}, gameweek {}, pagenumber {}", gameweekStatsRecordId, playerId, gameweek, pageNumber))
+                .switchIfEmpty(Flux.<GameWeekScoreDTO>empty().doFirst(() -> log.info("Did not find any record for ID {}, playerID {}, gameweek {}, pagenumber {}", gameweekStatsRecordId, playerId, gameweek, pageNumber)));
     }
 
     private GameWeekScoreDTO setRecordIds (GameWeekScoreDTO gameWeekScoreDTO) {

@@ -927,3 +927,61 @@ databaseChangeLog:
               - column:
                   name: SECD_NAME
                   value: Kiwior
+#       For unit test PlayerGameweekScoresApiControllerTest#fetchResponseReturnsGameweekRecordsTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: ca274132-1948-488c-97c9-14497008f0bb
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: d3b62398-4e94-41b4-a28b-23fa1becdcc3
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 9cbd62a9-2702-4a9c-9c51-bae7a651607f
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 18000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: ca274132-1948-488c-97c9-14497008f0bb
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: d3b62398-4e94-41b4-a28b-23fa1becdcc3
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: 9cbd62a9-2702-4a9c-9c51-bae7a651607f
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 0adb3479-5e0f-476f-bef4-19cb3ca903df
+              - column:
+                  name: FRST_NAME
+                  value: David
+              - column:
+                  name: SECD_NAME
+                  value: Raya
