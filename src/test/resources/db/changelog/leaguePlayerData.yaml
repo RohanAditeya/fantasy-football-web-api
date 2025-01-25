@@ -985,3 +985,119 @@ databaseChangeLog:
               - column:
                   name: SECD_NAME
                   value: Raya
+#       For unit test PlayerGameweekScoresApiControllerTest#fetchResponseReturnsCorrectPageBasedOnPlayerIdAndPageNumberTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: fb0f8872-9417-46de-bf4e-88cbf0b07e48
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 227d8c24-82e5-4d01-85bd-3cdcd4f94308
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: b07121ef-8c21-470b-8061-c114eabbc274
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 19000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: fb0f8872-9417-46de-bf4e-88cbf0b07e48
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: 227d8c24-82e5-4d01-85bd-3cdcd4f94308
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: b07121ef-8c21-470b-8061-c114eabbc274
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: a71242aa-be5d-4dd5-9ebc-70c631476bf1
+              - column:
+                  name: FRST_NAME
+                  value: N
+              - column:
+                  name: SECD_NAME
+                  value: Neto
+#       For unit test PlayerGameweekScoresApiControllerTest#fetchResponseReturnsProperRecordBasedOnPlayerIdAndGameweekTest
+        - insert:
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 0ad6a9fe-effe-4aa2-b250-16239b73574a
+        - insert:
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: e813bf35-061e-45c0-963f-ccce7a203db0
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: a9febd8c-92c2-481b-8e6c-c6d0f3bf3d31
+        - insert:
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: CODE
+                  valueNumeric: 20000
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  value: 0ad6a9fe-effe-4aa2-b250-16239b73574a
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  value: e813bf35-061e-45c0-963f-ccce7a203db0
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  value: a9febd8c-92c2-481b-8e6c-c6d0f3bf3d31
+              - column:
+                  name: TEAM_UUID
+                  value: 75fd0dd0-b829-4a9c-8d06-5eb0dc4347d8
+              - column:
+                  name: RECORD_ID
+                  value: 6f4e1808-b836-4d2f-8f38-b52faf1ef7cd
+              - column:
+                  name: FRST_NAME
+                  value: Fabio
+              - column:
+                  name: SECD_NAME
+                  value: Viera

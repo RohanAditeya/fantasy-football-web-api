@@ -119,4 +119,54 @@ public class PlayerGameweekScoresApiControllerTest extends BaseTestExtension {
                 )
                 .verifyComplete();
     }
+
+    @Test
+    @DisplayName(value = "fetch request with player_id and page_number fetches correct page with records")
+    void fetchResponseReturnsCorrectPageBasedOnPlayerIdAndPageNumberTest() {
+        Flux<GameWeekScoreDTO> response = webTestClient.get().uri("/api/fantasy/football/v1/league-player-gameweek-scores?page_number=2")
+                .header("player_id", "a71242aa-be5d-4dd5-9ebc-70c631476bf1")
+                .exchange().expectStatus().isOk()
+                .returnResult(GameWeekScoreDTO.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(
+                        fetchedRecord -> {
+                            assertThat(fetchedRecord.getGameWeekStatistics().getGameWeek()).isEqualTo(1);
+                        }
+                )
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "fetch request with player_id and game_week returns propert gameweek scores records")
+    void fetchResponseReturnsProperRecordBasedOnPlayerIdAndGameweekTest() {
+        Flux<GameWeekScoreDTO> response = webTestClient.get().uri("/api/fantasy/football/v1/league-player-gameweek-scores?game_week=2")
+                .header("player_id", "6f4e1808-b836-4d2f-8f38-b52faf1ef7cd")
+                .exchange().expectStatus().isOk()
+                .returnResult(GameWeekScoreDTO.class).getResponseBody();
+        StepVerifier.create(response)
+                .assertNext(
+                        fetchedRecord -> {
+                            assertThat(fetchedRecord.getGameWeekStatistics().getGameWeek()).isEqualTo(2);
+                        }
+                )
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "fetch gameweek scores request with player_id returns empty but success response")
+    void fetchResponseReturns200BasedOnPlayerIdTest() {
+        Flux<GameWeekScoreDTO> response = webTestClient.get().uri("/api/fantasy/football/v1/league-player-gameweek-scores")
+                .header("player_id", "6f4e1808-b836-4d2f-8f38-b52faf1ef7ce")
+                .exchange().expectStatus().isOk()
+                .returnResult(GameWeekScoreDTO.class).getResponseBody();
+        StepVerifier.create(response)
+                .verifyComplete();
+    }
+
+    @Test
+    @DisplayName(value = "fetch gameweek scores request without any filter criteria headers returns error response")
+    void fetchResponseReturns5xxWhenNoHeadersProvidedTest() {
+        webTestClient.get().uri("/api/fantasy/football/v1/league-player-gameweek-scores")
+                .exchange().expectStatus().is5xxServerError();
+    }
 }

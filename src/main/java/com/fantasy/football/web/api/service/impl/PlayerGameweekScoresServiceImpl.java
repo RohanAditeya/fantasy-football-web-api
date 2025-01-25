@@ -10,6 +10,9 @@ import com.fantasy.football.web.api.service.PlayerGameweekScoresService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -54,7 +57,7 @@ class PlayerGameweekScoresServiceImpl implements PlayerGameweekScoresService {
         if (recordId != null)
             recordToBeDeletedFlux = gameweekStatisticsRepository.findById(recordId).flux();
         else
-            recordToBeDeletedFlux = gameweekStatisticsRepository.findByPlayerId(playerId);
+            recordToBeDeletedFlux = gameweekStatisticsRepository.findByPlayerId(playerId, Pageable.unpaged(Sort.by(Sort.Order.desc("gameWeek"))));
         return recordToBeDeletedFlux
                 .flatMap(
                         recordToBeDeleted ->
@@ -81,12 +84,10 @@ class PlayerGameweekScoresServiceImpl implements PlayerGameweekScoresService {
         else if (playerId != null) {
             Flux<PlayerGameWeekStatistics> gameWeekStatisticsFlux;
             if (gameweek != null)
-                gameWeekStatisticsFlux = gameweekStatisticsRepository.findByPlayerIdAndGameWeek(playerId, gameweek);
+                gameWeekStatisticsFlux = gameweekStatisticsRepository.findByPlayerIdAndGameWeek(playerId, gameweek, PageRequest.of(pageNumber - 1, DEFAULT_PAGE_SIZE, Sort.by(Sort.Order.desc("gameWeek"))));
             else
-                gameWeekStatisticsFlux = gameweekStatisticsRepository.findByPlayerId(playerId);
+                gameWeekStatisticsFlux = gameweekStatisticsRepository.findByPlayerId(playerId, PageRequest.of(pageNumber - 1, DEFAULT_PAGE_SIZE, Sort.by(Sort.Order.desc("gameWeek"))));
             gameWeekScoreDTOFlux = gameWeekStatisticsFlux
-                    .skip((Optional.ofNullable(pageNumber).orElse(1) - 1L) * DEFAULT_PAGE_SIZE)
-                    .take(DEFAULT_PAGE_SIZE)
                     .flatMap(
                             statsRecord -> gameweekBreakupRepository
                                     .findByGameWeek(statsRecord.getRecordId())
