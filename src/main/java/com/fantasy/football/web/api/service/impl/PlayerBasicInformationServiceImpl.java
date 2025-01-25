@@ -12,6 +12,8 @@ import com.fantasy.football.web.api.service.PlayerMiscellaneousInformationServic
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -68,9 +70,7 @@ class PlayerBasicInformationServiceImpl implements PlayerBasicInformationService
         } else if (playerCode != null) {
             return playerBasicInformationRepository.findByCode(playerCode).flux();
         } else if (teamId != null) {
-            return playerBasicInformationRepository.findByTeam(UUID.fromString(teamId))
-                    .skip((Optional.ofNullable(pageNumber).orElse(1) - 1L) * DEFAULT_PAGE_SIZE)
-                    .take(DEFAULT_PAGE_SIZE);
+            return playerBasicInformationRepository.findByTeam(UUID.fromString(teamId), PageRequest.of(pageNumber - 1, DEFAULT_PAGE_SIZE, Sort.by(Sort.Order.asc("code"))));
         } else {
             throw new BadInputException("Request must provide either record_id or player_code or team_id header", 400);
         }
