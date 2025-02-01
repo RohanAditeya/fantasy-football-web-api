@@ -64,6 +64,12 @@ tasks.processAot {
     jvmArgs("-Dspring.profiles.active=$springActiveProfiles")
 }
 
+release {
+    git {
+        requireBranch.set("")
+    }
+}
+
 tasks.bootBuildImage {
     // Don't want to provide the gradle property in local and want the image name to be only project.name:project version
     val repo: String = when (providers.gradleProperty("docker.repo").isPresent) {
