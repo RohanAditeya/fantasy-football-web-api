@@ -22,10 +22,20 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: current
+      - name: downcase Owner
+        run: |
+          echo "OWNER=${GITHUB_REPOSITORY_OWNER@L}" >>${GITHUB_ENV}
+      - name: Log in to the Github packages Docker Container registry
+        uses: docker/login-action@v3.3.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Test with Gradle
         if: github.ref_type == 'branch' && !(startsWith(github.ref_name, 'release') || startsWith(github.ref_name, 'main'))
-        run: gradle -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} build
+#        run: gradle -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} build
+        run: gradle -Pspring.profile=kubernetes -Pdocker.repo=${{ env.REGISTRY }}/${OWNER} -Pdocker.registry.url=${{ env.REGISTRY }} -Pdocker.registry.username=${{ github.actor }} -Pdocker.registry.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} bootBuildImage
       - name: Release with Gradle
         if: github.ref_type == 'branch' && (startsWith(github.ref_name, 'main'))
-        run: gradle -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} build
+        run: gradle -Pspring.profile=kubernetes -Pdocker.repo=${{ env.REGISTRY }}/${OWNER} -Pdocker.registry.url=${{ env.REGISTRY }} -Pdocker.registry.username=${{ github.actor }} -Pdocker.registry.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} bootBuildImage
     timeout-minutes: 10

@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.openRewritePlugin)
     alias(libs.plugins.graalvmGradlePlugin)
 }
-var springActiveProfiles: String = providers.gradleProperty("spring-profile").getOrElse("local")
+var springActiveProfiles: String = providers.gradleProperty("spring.profile").getOrElse("local")
 group = "com.framework.another.boot"
 
 java {
@@ -66,8 +66,8 @@ tasks.processAot {
 
 tasks.bootBuildImage {
     // Don't want to provide the gradle property in local and want the image name to be only project.name:project version
-    val repo: String = when (providers.gradleProperty("docker-repo").isPresent) {
-        true -> "${providers.gradleProperty("docker-repo").get()}/"
+    val repo: String = when (providers.gradleProperty("docker.repo").isPresent) {
+        true -> "${providers.gradleProperty("docker.repo").get()}/"
         false -> ""
     }
     docker {
@@ -76,6 +76,12 @@ tasks.bootBuildImage {
         if (isPodManHostConfigured.isPresent) {
             host.set(isPodManHostConfigured.get())
             bindHostToBuilder.set(true)
+        } else {
+            publishRegistry {
+                url.set(providers.gradleProperty("docker.registry.url"))
+                username.set(providers.gradleProperty("docker.registry.username"))
+                password.set(providers.gradleProperty("docker.registry.password"))
+            }
         }
     }
     imageName.set("$repo${project.name}:${project.version}")
