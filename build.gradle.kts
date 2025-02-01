@@ -60,6 +60,10 @@ tasks.beforeReleaseBuild {
     dependsOn(tasks.publish)
 }
 
+tasks.publish {
+    dependsOn(tasks.bootBuildImage)
+}
+
 tasks.processAot {
     jvmArgs("-Dspring.profiles.active=$springActiveProfiles")
 }
