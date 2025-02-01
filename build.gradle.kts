@@ -5,8 +5,9 @@ plugins {
     alias(libs.plugins.gradleReleaePlugin)
     alias(libs.plugins.lombokPlugin)
     alias(libs.plugins.openRewritePlugin)
+    alias(libs.plugins.graalvmGradlePlugin)
 }
-
+var springActiveProfiles: String = providers.gradleProperty("spring-profile").getOrElse("local")
 group = "com.framework.another.boot"
 
 java {
@@ -57,6 +58,28 @@ dependencies {
 
 tasks.beforeReleaseBuild {
     dependsOn(tasks.publish)
+}
+
+tasks.processAot {
+    jvmArgs("-Dspring.profiles.active=$springActiveProfiles")
+}
+
+tasks.bootBuildImage {
+    // Don't want to provide the gradle property in local and want the image name to be only project.name:project version
+    val repo: String = when (providers.gradleProperty("docker-repo").isPresent) {
+        true -> "${providers.gradleProperty("docker-repo").get()}/"
+        false -> ""
+    }
+    docker {
+        // Since I want to use podman engine when building image in local
+        val isPodManHostConfigured = providers.gradleProperty("podman.host")
+        if (isPodManHostConfigured.isPresent) {
+            host.set(isPodManHostConfigured.get())
+            bindHostToBuilder.set(true)
+        }
+    }
+    imageName.set("$repo${project.name}:${project.version}")
+    environment.put("BPE_SPRING_PROFILES_ACTIVE", springActiveProfiles)
 }
 
 publishing {

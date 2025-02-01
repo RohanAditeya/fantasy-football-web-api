@@ -5,6 +5,7 @@ fantasyFootballModelVersion = "2.0.3"
 lombokPluginVersion = "8.11"
 reactorBlockHoundVersion = "1.0.10.RELEASE"
 openRewritePluginVersion = "6.29.2"
+graalvmGradlePluginVersion = "0.10.4"
 
 [libraries]
 fantasyFootballModel = { group = "com.fantasy.football", name = "fantasy-football-model", version.ref = "fantasyFootballModelVersion" }
@@ -15,3 +16,4 @@ anotherBootPlugin = { id = "com.framework.another.boot", version.ref = "anotherB
 gradleReleaePlugin = { id = "net.researchgate.release", version.ref = "gradleReleasePluginVersion" }
 lombokPlugin = { id = "io.freefair.lombok", version.ref = "lombokPluginVersion" }
 openRewritePlugin = { id = "org.openrewrite.rewrite", version.ref = "openRewritePluginVersion" }
+graalvmGradlePlugin = { id = "org.graalvm.buildtools.native", version.ref = "graalvmGradlePluginVersion" }
