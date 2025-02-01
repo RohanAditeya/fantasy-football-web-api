@@ -1,0 +1,129 @@
+databaseChangeLog:
+  - changeSet:
+      id:  leagueTeam-table
+      author:  rohan-aditeya
+      created: 06/2024
+      comment: Creates the base structure of the league team table.
+      changes:
+        - createTable:
+            ifNotExits: true
+            remarks: The league team table
+            tableName: LEAGUE_TEAM
+            columns:
+              - column:
+                  name: PULSE_ID
+                  type: INT
+                  remarks: Pulse ID Fetched from the Premier league API. Need to understand its use.
+              - column:
+                  name: SHRT_NAME
+                  type: VARCHAR(3)
+                  remarks: The short name as provided by the Premier League API
+                  constraints:
+                    nullable: false
+              - column:
+                  name: STRGTH
+                  type: INT
+                  remarks: The strength of the team in the current season
+              - column:
+                  name: STRGTH_ATT_AWAY
+                  type: INT
+                  remarks: The attack strength away from home in the current season
+              - column:
+                  name: STRGTH_ATT_HOME
+                  type: INT
+                  remarks: The attack strength at home in the current season
+              - column:
+                  name: STRGTH_DEF_AWAY
+                  type: INT
+                  remarks: The defence strength away from home in this season
+              - column:
+                  name: STRGTH_DEF_HOME
+                  type: INT
+                  remarks: The defence strength at home in the current season
+              - column:
+                  name: STRGTH_OVR_AWAY
+                  type: INT
+                  remarks: The overall strength away from home in the current season
+              - column:
+                  name: STRGTH_OVR_HOME
+                  type: INT
+                  remarks: The overall strength at home in the current season
+              - column:
+                  name: UN_AVLBL
+                  type: BOOLEAN
+                  remarks: Boolean to indicate if the team is available in the current season. TODO Need to find out more
+              - column:
+                  name: CODE
+                  type: INT
+                  remarks: A unique code provided by the Premier league API for the team.
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: DRAW
+                  type: INT
+                  remarks: The number of games drawn in the current season
+                  constraints:
+                    nullable: false
+              - column:
+                  name: FORM
+                  type: FLOAT(24)
+                  remarks: The Form up till now in the current season.
+                  constraints:
+                    nullable: false
+              - column:
+                  name: LOSS
+                  type: INT
+                  remarks: The number of games lost in the current season
+                  constraints:
+                    nullable: false
+              - column:
+                  name: PLAYED
+                  type: INT
+                  remarks: The number of games played in the current season
+                  constraints:
+                    nullable: false
+              - column:
+                  name: POINTS
+                  type: INT
+                  remarks: The points won up till now in the current season
+                  constraints:
+                    nullable: false
+              - column:
+                  name: POSITION
+                  type: INT
+                  remarks: The current position in the league table.
+                  constraints:
+                    nullable: false
+              - column:
+                  name: WIN
+                  type: INT
+                  remarks: The number of games won in the current season
+                  constraints:
+                    nullable: false
+              - column:
+                  name: VERSION_NUMBER
+                  type: BIGINT
+                  remarks: The version number tracked for auditing purposes.
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TEAM_DIV
+                  type: VARCHAR(10)
+                  remarks: Need to find out more about this field. Provided by Premier league API
+              - column:
+                  name: RECORD_ID
+                  type: UUID
+                  remarks: Unique record ID provided by the application.
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: NAME
+                  type: VARCHAR(30)
+                  remarks: Name of the team.
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: LEAGUE_TEAM
+            columnNames: RECORD_ID, CODE, NAME

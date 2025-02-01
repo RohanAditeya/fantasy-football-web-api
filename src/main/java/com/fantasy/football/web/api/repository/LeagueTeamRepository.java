@@ -1,11 +1,21 @@
 package com.fantasy.football.web.api.repository;
 
 import com.fantasy.football.model.LeagueTeam;
-import com.fantasy.football.model.LeagueTeamPrimaryKey;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.repository.reactive.ReactiveSortingRepository;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.Optional;
+import java.util.UUID;
 
-public interface LeagueTeamRepository extends JpaRepository<LeagueTeam, LeagueTeamPrimaryKey> {
-    Optional<LeagueTeam> findByCompositeKeyCode (int code);
+@Repository
+public interface LeagueTeamRepository extends ReactiveSortingRepository<LeagueTeam, UUID>, ReactiveCrudRepository<LeagueTeam, UUID> {
+    Mono<Void> deleteByName(String teamName);
+
+    Mono<Void> deleteByCode(int code);
+
+    Flux<LeagueTeam> findByName(String teamName);
+
+    Mono<LeagueTeam> findByCode(Integer teamCode);
 }

@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: classpath:/db/changelog/db.changelog-master.yaml
+  - include:
+      file: classpath:/db/changelog/leagueTeamTestData.yaml
+  - include:
+      file: classpath:/db/changelog/leaguePlayerData.yaml
+  - include:
+      file: classpath:/db/changelog/playerFantasyStatisticsData.yaml
+  - include:
+      file: classpath:/db/changelog/playerGameStatisticsData.yaml
+  - include:
+      file: classpath:/db/changelog/playerMiscStatisticsData.yaml
+  - include:
+      file: classpath:/db/changelog/playerGameweekScoresData.yaml

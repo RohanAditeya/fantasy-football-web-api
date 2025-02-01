@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: fantasy-football-web-api
+management:
+  tracing:
+    enabled: false
+  endpoint:
+    env:
+      show-values: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "health,info,env,beans,metrics"
+  otlp:
+    metrics:
+      export:
+        enabled: false
+---
+spring:
+  config:
+    activate:
+      on-cloud-platform: kubernetes
+  r2dbc:
+    url: r2dbc:postgresql://cloud-postgresql.postgres.svc.cluster.local:5432/fantasy_football?currentSchema=dev
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: http://opentelemetry-collector.sre.svc.cluster.local:4318/v1/traces
+    metrics:
+      export:
+        enabled: true
+        url: http://opentelemetry-collector.sre.svc.cluster.local:4318/v1/metrics
+logging:
+  file:
+    name: /app/logs/app.log

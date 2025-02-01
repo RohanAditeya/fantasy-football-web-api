@@ -1,0 +1,17 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/fantasy_football?currentSchema=fantasy_football
+    username: fantasy_football_app_user
+    password: ${db-password}
+    properties:
+      sslmode: disable
+    pool:
+      enabled: true
+      max-size: 5
+      initial-size: 5
+  liquibase:
+    url: jdbc:postgresql://localhost:5432/fantasy_football?currentSchema=fantasy_football&sslmode=disable
+    user: fantasy_football_app_user
+    password: ${db-password}
+    defaultSchema: fantasy_football
+    liquibaseSchema: fantasy_football

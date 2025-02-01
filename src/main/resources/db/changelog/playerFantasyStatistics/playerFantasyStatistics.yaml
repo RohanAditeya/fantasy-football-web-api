@@ -1,0 +1,132 @@
+databaseChangeLog:
+  - changeSet:
+      id:  player-fantasy-statistics-table
+      author:  rohan-aditeya
+      created: 06/2024
+      comment: Creates the base structure of the Player Fantasy Statistics table.
+      changes:
+        - createTable:
+            ifNotExits: true
+            remarks: The player fantasy statistics table
+            tableName: PLYR_FANT_STCS
+            columns:
+              - column:
+                  name: CHNC_OF_PLYNG_CURR_RD
+                  type: INT
+                  remarks: The probability of playing in the current round
+              - column:
+                  name: CHNC_OF_PLYNG_NXT_RD
+                  type: INT
+                  remarks: The probability of playing the next round
+              - column:
+                  name: CURR_COST
+                  type: INT
+                  remarks: Current cost must be appended with million
+              - column:
+                  name: DREAM_TM_CT
+                  type: INT
+                  remarks: Number of times player has featured in dream team
+              - column:
+                  name: EVT_PNTS
+                  type: INT
+                  remarks: Event points received from premier league need to find out more about this column
+              - column:
+                  name: EXP_ASSTS
+                  type: FLOAT(24)
+                  remarks: Expected assists in the current season
+              - column:
+                  name: EXP_ASSTS_90
+                  type: FLOAT(24)
+                  remarks: Expected assists per game in current season
+              - column:
+                  name: EXP_GOALS
+                  type: FLOAT(24)
+                  remarks: Expected goals in the current season
+              - column:
+                  name: EXP_GOALS_90
+                  type: FLOAT(24)
+                  remarks: Expected goals per game in the current season
+              - column:
+                  name: EXP_GOALS_CNCDED
+                  type: FLOAT(24)
+                  remarks: Expected goals conceded in the current season
+              - column:
+                  name: EXP_GOALS_CNCDED_90
+                  type: FLOAT(24)
+                  remarks: Expected goals conceded per game in the current season
+              - column:
+                  name: EXP_GOAL_INVLMTS
+                  type: FLOAT(24)
+                  remarks: Expected goal involvements in the current season
+              - column:
+                  name: EXP_GOAL_INVLMTS_90
+                  type: FLOAT(24)
+                  remarks: Expected goal involvements per game in the current season
+              - column:
+                  name: EXP_PNTS_CURR
+                  type: FLOAT(24)
+                  remarks: Expected points in the current round
+              - column:
+                  name: EXP_PNTS_NXT
+                  type: FLOAT(24)
+                  remarks: Expected points in the next rounds
+              - column:
+                  name: IS_IN_DREAM_TM
+                  type: BOOLEAN
+                  remarks: Indicator to signify if player is in dream team in the current round.
+              - column:
+                  name: PNTS_PER_GAME
+                  type: FLOAT(24)
+                  remarks: Points per game in the current season
+              - column:
+                  name: SEL_BY_PRCT
+                  type: FLOAT(24)
+                  remarks: Percentages of managers who selected this player
+              - column:
+                  name: TOTAL_PNTS
+                  type: INT
+                  remarks: Total points in the current season
+              - column:
+                  name: VAL_FROM
+                  type: FLOAT(24)
+                  remarks: Need to find out more about this column
+              - column:
+                  name: VAL_SEASN
+                  type: FLOAT(24)
+                  remarks: Need to find out more about this column
+              - column:
+                  name: BONUS
+                  type: INT
+                  remarks: Bonus points in the current season
+              - column:
+                  name: BPS
+                  type: INT
+                  remarks: Need to find out more about this column
+              - column:
+                  name: FORM
+                  type: FLOAT(24)
+                  remarks: Form of the player in the current season
+              - column:
+                  name: TRNFR_IN
+                  type: BIGINT
+                  remarks: Number of managers who bought this player
+              - column:
+                  name: TRNFR_OUT
+                  type: BIGINT
+                  remarks: Number of managers who bought this player
+              - column:
+                  name: VERSION_NUMBER
+                  type: BIGINT
+                  remarks: Version number used for auditing
+                  constraints:
+                    nullable: false
+              - column:
+                  name: RECORD_ID
+                  type: UUID
+                  remarks: Unique ID generated by fantasy premier league API for this record
+                  constraints:
+                    nullable: false
+                    unique: true
+        - addPrimaryKey:
+            tableName: PLYR_FANT_STCS
+            columnNames: RECORD_ID

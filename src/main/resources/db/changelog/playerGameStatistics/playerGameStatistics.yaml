@@ -1,0 +1,108 @@
+databaseChangeLog:
+  - changeSet:
+      id:  player-game-statistics-table
+      author:  rohan-aditeya
+      created: 06/2024
+      comment: Creates the base structure of the Player Game Statistics table.
+      changes:
+        - createTable:
+            ifNotExits: true
+            remarks: The player game statistics table
+            tableName: PLYR_GAME_STCS
+            columns:
+              - column:
+                  name: ASSTS
+                  type: INT
+                  remarks: Assists in the current season
+              - column:
+                  name: CLEAN_SHTS
+                  type: INT
+                  remarks: Clean Sheets in the current season
+              - column:
+                  name: CLEAN_SHTS_90
+                  type: FLOAT(24)
+                  remarks: Clean Sheets per game in the current season
+              - column:
+                  name: GOALS_CNCDED
+                  type: INT
+                  remarks: Goals conceded in the current season
+              - column:
+                  name: GOALS_CNCDED_90
+                  type: FLOAT(24)
+                  remarks: Goals scored per game in the current season
+              - column:
+                  name: GOALS_SCRD
+                  type: INT
+                  remarks: Goals scored in the current season
+              - column:
+                  name: MINS
+                  type: INT
+                  remarks: Minutes played in the current season
+              - column:
+                  name: OWN_GOALS
+                  type: INT
+                  remarks: Own goals scored in current season
+              - column:
+                  name: PEN_MISSED
+                  type: INT
+                  remarks: Penalties missed in the current season
+              - column:
+                  name: PEN_SAVED
+                  type: INT
+                  remarks: Penalties saved in the current season
+              - column:
+                  name: RED_CARDS
+                  type: INT
+                  remarks: No of red cards awarded in the current season
+              - column:
+                  name: SAVES_90
+                  type: FLOAT(24)
+                  remarks: Saves per game in the current season
+              - column:
+                  name: STARTS_90
+                  type: FLOAT(24)
+                  remarks: Starts per game in the current season
+              - column:
+                  name: YELL_CARDS
+                  type: INT
+                  remarks: No. of yellow cards awarded in the current season
+              - column:
+                  name: CREATIVITY
+                  type: FLOAT(24)
+                  remarks: Creativity rating in the current season
+              - column:
+                  name: INFLUENCE
+                  type: FLOAT(24)
+                  remarks: Influence rating in the current season
+              - column:
+                  name: SAVES
+                  type: INT
+                  remarks: No of saves in the current season
+              - column:
+                  name: STARTS
+                  type: INT
+                  remarks: No of starts in the current season
+              - column:
+                  name: THREAT
+                  type: FLOAT(24)
+                  remarks: Threat rating in the current season
+              - column:
+                  name: VERSION_NUMBER
+                  type: BIGINT
+                  remarks: Version number for auditing purpose.
+                  constraints:
+                    nullable: false
+              - column:
+                  name: RECORD_ID
+                  type: UUID
+                  remarks: Unique record ID generated for the record
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: TOTAL_POINTS
+                  type: INT
+                  remarks: Total points in the current season
+        - addPrimaryKey:
+            tableName: PLYR_GAME_STCS
+            columnNames: RECORD_ID

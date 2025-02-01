@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - include:
+      file: leagueTeam/leagueTeam.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: playerFantasyStatistics/playerFantasyStatistics.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: playerGameStatistics/playerGameStatistics.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: playerMiscInfo/playerMiscInfo.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: playerBasicInfo/playerBasicInfo.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: gameWeekStatistics/gameWeekStatistics.yaml
+      relativeToChangelogFile: true

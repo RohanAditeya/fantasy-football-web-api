@@ -1,0 +1,118 @@
+databaseChangeLog:
+  - changeSet:
+      id:  player-basic-info-table
+      author:  rohan-aditeya
+      created: 06/2024
+      comment: Creates the base structure of the Player Basic Info table.
+      changes:
+        - createTable:
+            ifNotExits: true
+            remarks: The player basic info table
+            tableName: PLYR_BSC_INFO
+            columns:
+              - column:
+                  name: PLYR_STS
+                  type: CHAR(1)
+                  remarks: Status of the player received from Premier league API
+              - column:
+                  name: SQD_NO
+                  type: INT
+                  remarks: Squad number allotted to the player
+              - column:
+                  name: CODE
+                  type: BIGINT
+                  remarks: Unique code assigned to the player by Premier league API
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: VERSION_NUMBER
+                  type: BIGINT
+                  remarks: Version number for auditing purpose.
+                  constraints:
+                    nullable: false
+              - column:
+                  name: WEB_NAME
+                  type: VARCHAR(50)
+                  remarks: Players short name in the Premier league services
+              - column:
+                  name: PLYR_FANT_STCS_PK
+                  type: UUID
+                  remarks: Reference to the fantasy statistics record for the player
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: PLYR_GAME_STCS_PK
+                  type: UUID
+                  remarks: Reference to the game statistics record for the player
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: PLYR_MISC_INFO_PK
+                  type: UUID
+                  remarks: Reference to the miscellaneous statistics record for the player
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: TEAM_UUID
+                  type: UUID
+                  remarks: Reference to the team record
+                  constraints:
+                    nullable: false
+              - column:
+                  name: RECORD_ID
+                  type: UUID
+                  remarks: Unique record for the player allotted by fantasy premier league services.
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: FRST_NAME
+                  type: VARCHAR(30)
+                  remarks: First name of the player
+                  constraints:
+                    nullable: false
+              - column:
+                  name: SECD_NAME
+                  type: VARCHAR(30)
+                  remarks: Second name of the player
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: PLYR_BSC_INFO
+            columnNames: RECORD_ID, CODE, FRST_NAME, SECD_NAME
+        - addForeignKeyConstraint:
+            constraintName: LEAGUE_TEAM_FK
+            baseTableName: PLYR_BSC_INFO
+            baseColumnNames: TEAM_UUID
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedTableName: LEAGUE_TEAM
+            referencedColumnNames: RECORD_ID
+        - addForeignKeyConstraint:
+            constraintName: PLYR_FANT_STCS_FK
+            baseTableName: PLYR_BSC_INFO
+            baseColumnNames: PLYR_FANT_STCS_PK
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedTableName: PLYR_FANT_STCS
+            referencedColumnNames: RECORD_ID
+        - addForeignKeyConstraint:
+            constraintName: PLYR_GAME_STCS_FK
+            baseTableName: PLYR_BSC_INFO
+            baseColumnNames: PLYR_GAME_STCS_PK
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedTableName: PLYR_GAME_STCS
+            referencedColumnNames: RECORD_ID
+        - addForeignKeyConstraint:
+            constraintName: PLYR_MISC_INFO_FK
+            baseTableName: PLYR_BSC_INFO
+            baseColumnNames: PLYR_MISC_INFO_PK
+            onDelete: RESTRICT
+            onUpdate: RESTRICT
+            referencedTableName: PLYR_MISC_INFO
+            referencedColumnNames: RECORD_ID

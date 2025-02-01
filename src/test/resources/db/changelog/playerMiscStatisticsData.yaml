@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      runOrder: "last"
+      id: player-misc-data-for-unit-tests
+      author: rohan-aditeya
+      changes:
+#       For unit test PlayerMiscStatisticsApiControllerTest#deletePlayerMiscStatisticsRequestDeletesExistingRecordTest
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 0aea62b2-356b-4390-a170-6c3babc80f8b
+#       For unit test PlayerMiscStatisticsApiControllerTest#fetchExistingRecordIsReturnedTest
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: 3c95d9d0-6675-4bef-b984-82361531974b
+#       For unit test PlayerMiscStatisticsApiControllerTest#updateRequestForExistingRecordUpdatesTheRecordSuccessfullyTest
+        - insert:
+            tableName: PLYR_MISC_INFO
+            columns:
+              - column:
+                  name: VERSION_NUMBER
+                  valueNumeric: 1
+              - column:
+                  name: RECORD_ID
+                  value: e037c0db-e790-43e2-9ff5-8363d02d207b
+              - column:
+                  name: CURR_COST_RANK
+                  valueNumeric: 1
