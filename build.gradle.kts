@@ -70,6 +70,9 @@ tasks.bootBuildImage {
         true -> "${providers.gradleProperty("docker.repo").get()}/"
         false -> ""
     }
+    if (springActiveProfiles != "local") {
+        publish.set(true)
+    }
     docker {
         // Since I want to use podman engine when building image in local
         val isPodManHostConfigured = providers.gradleProperty("podman.host")
