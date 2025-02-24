@@ -1,5 +1,6 @@
 package com.fantasy.football.web.api.config;
 
+import liquibase.changelog.visitor.ValidatingVisitorGeneratorFactory;
 import liquibase.database.LiquibaseTableNamesFactory;
 import liquibase.ui.LoggerUIService;
 import org.springframework.aot.hint.ExecutableMode;
@@ -13,5 +14,6 @@ public class LiquibaseRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
         hints.reflection().registerType(LoggerUIService.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
         hints.reflection().registerType(LiquibaseTableNamesFactory.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
+        hints.reflection().registerType(ValidatingVisitorGeneratorFactory.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
     }
 }
