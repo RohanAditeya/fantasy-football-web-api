@@ -1,0 +1,15 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://postgresql.postgres:5433/fantasy-football?currentSchema=public
+    username: postgres
+    properties:
+      sslmode: disable
+    pool:
+      enabled: true
+      max-size: 5
+      initial-size: 5
+  liquibase:
+    url: jdbc:postgresql://postgresql.postgres:5433/fantasy-football?currentSchema=public&sslmode=disable
+    user: postgres
+    defaultSchema: public
+    liquibaseSchema: public
