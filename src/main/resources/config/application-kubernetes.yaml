@@ -13,3 +13,9 @@ spring:
     user: postgres
     defaultSchema: public
     liquibaseSchema: public
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
