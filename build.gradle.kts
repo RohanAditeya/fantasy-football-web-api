@@ -18,6 +18,12 @@ java {
     withSourcesJar()
 }
 
+graalvmNative {
+    metadataRepository {
+        enabled.set(true)
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
     jvmArgs("-XX:+AllowRedefinitionToAddDeleteMethods")

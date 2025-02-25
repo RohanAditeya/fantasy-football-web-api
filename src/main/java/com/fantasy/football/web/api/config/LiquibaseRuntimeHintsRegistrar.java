@@ -12,8 +12,8 @@ import java.util.Collections;
 public class LiquibaseRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
     @Override
     public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-        hints.reflection().registerType(LoggerUIService.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
-        hints.reflection().registerType(LiquibaseTableNamesFactory.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
-        hints.reflection().registerType(ValidatingVisitorGeneratorFactory.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
+//        hints.reflection().registerType(LoggerUIService.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
+//        hints.reflection().registerType(LiquibaseTableNamesFactory.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
+//        hints.reflection().registerType(ValidatingVisitorGeneratorFactory.class, type -> type.withConstructor(Collections.emptyList(), ExecutableMode.INVOKE));
     }
 }
