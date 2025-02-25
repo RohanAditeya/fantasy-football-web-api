@@ -19,3 +19,7 @@ management:
       enabled: true
     readinessstate:
       enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
