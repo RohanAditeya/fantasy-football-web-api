@@ -36,5 +36,5 @@ jobs:
         run: gradle -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} build
       - name: Release with Gradle
         if: github.ref_type == 'branch' && (startsWith(github.ref_name, 'main'))
-        run: git config user.email "release-bot@example.com" && git config user.name "release-bot" && gradle -Prelease.useAutomaticVersion=true -Pspring.profile=kubernetes -Pdocker.repo=${{ env.REGISTRY }}/${OWNER} -Pdocker.registry.url=${{ env.REGISTRY }} -Pdocker.registry.username=${{ github.actor }} -Pdocker.registry.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} release
+        run: git config user.email "release-bot@example.com" && git config user.name "release-bot" && gradle --publishImage -Prelease.useAutomaticVersion=true -Pspring.profile=kubernetes -Pdocker.repo=${{ env.REGISTRY }}/${OWNER} -Pdocker.registry.url=${{ env.REGISTRY }} -Pdocker.registry.username=${{ github.actor }} -Pdocker.registry.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.password=${{ secrets.GITHUB_TOKEN }} -Partifactory.user=${{ github.actor }} release
     timeout-minutes: 10

@@ -15,7 +15,7 @@ apply(plugin = "io.spring.dependency-management")
 var springActiveProfiles: String = providers.gradleProperty("spring.profile").getOrElse("local")
 group = "com.fantasy.football"
 
-extra["springCloudVersion"] = "2024.0.1"
+extra["springCloudVersion"] = "2025.0.0"
 
 java {
     toolchain {
@@ -80,20 +80,12 @@ tasks.processAot {
     jvmArgs("-Dspring.profiles.active=$springActiveProfiles")
 }
 
-release {
-    git {
-        requireBranch.set("")
-    }
-}
-
 tasks.bootBuildImage {
+    dependsOn(tasks.build)
     // Don't want to provide the gradle property in local and want the image name to be only project.name:project version
     val repo: String = when (providers.gradleProperty("docker.repo").isPresent) {
         true -> "${providers.gradleProperty("docker.repo").get()}/"
         false -> ""
-    }
-    if (springActiveProfiles != "local") {
-        publish.set(true)
     }
     docker {
         // Since I want to use podman engine when building image in local
